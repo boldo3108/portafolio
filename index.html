@@ -11,19 +11,14 @@
 <style>
 *,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
 /* Layout: una bitácora. Marco de 1120px; la marca ocupa todo el ancho arriba y sus letras huecas se llenan a medida que recorres la página. Secciones con etiqueta lateral fija y contenido a la derecha. El único color es la B y el 3. */
+/* Tema único oscuro: fondo azul noche #080C14 elegido por Patricio */
 :root{
-  --bg:#F7F7F5; --ink:#141414; --muted:#6E6E6A; --faint:#A3A39E; --line:#E4E4E0; --card:#FFFFFF;
-  --green:#169C55; --orange:#E8691A;
+  --bg:#080C14; --ink:#E9EDF5; --muted:#98A1B3; --faint:#566074; --line:#1A2233; --card:#0E1420;
+  --green:#3CCB7F; --orange:#FF8A3D; color-scheme:dark;
   --sans:"Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
   --mono:"Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --s-1:13px; --s0:16px; --s1:19px;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0F0F0E; --ink:#ECECE8; --muted:#9A9A94; --faint:#5F5F5B; --line:#262624; --card:#161615;
-  --green:#3CCB7F; --orange:#FF8A3D; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#0F0F0E; --ink:#ECECE8; --muted:#9A9A94; --faint:#5F5F5B; --line:#262624; --card:#161615;
-  --green:#3CCB7F; --orange:#FF8A3D; color-scheme:dark}
 
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
