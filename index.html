@@ -92,6 +92,8 @@ section{border-top:1px solid var(--line)}
 .app-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px}
 .dl{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:8px;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:500;font-size:15px;transition:opacity .15s}
 .dl:hover{opacity:.85}
+.dl.off{background:var(--line);color:var(--faint);cursor:not-allowed;pointer-events:none}
+.soon{color:var(--muted)}
 .dl .mono{opacity:.7;font-size:12px}
 .vers{color:var(--muted);text-decoration:none} .vers:hover{color:var(--ink);text-decoration:underline}
 .apps-note{margin-top:20px;color:var(--muted);max-width:60ch;font-size:15px}
@@ -141,7 +143,7 @@ footer .frame{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap
       <ol class="log">
         <li class="entry">
           <time class="mono" datetime="2026-10-26">26 oct 2026</time>
-          <div><h3>Publiqué mis primeras 4 apps</h3><p>Convertidor de Audio Pro, Convertidor de Imágenes, Organizador de Fotos y Voxia ya se pueden descargar gratis desde aquí.</p><span class="tag mono">apps</span></div>
+          <div><h3>Publiqué mis primeras apps</h3><p>Voxia, Convertidor de Audio Pro y Convertidor de Imágenes ya se pueden descargar gratis desde aquí. El Organizador de Fotos llega pronto.</p><span class="tag mono">apps</span></div>
         </li>
         <li class="entry">
           <time class="mono" datetime="2026-10-26">26 oct 2026</time>
@@ -188,12 +190,11 @@ footer .frame{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap
             </div>
           </article>
           <article class="app">
-            <div class="app-top mono"><span>04</span><span>v1.0 · Windows</span></div>
+            <div class="app-top mono"><span>04</span><span class="soon">Próximamente</span></div>
             <h3>Organizador de Fotos</h3>
             <p>Revisa una carpeta, detecta las fotos duplicadas y las separa de las únicas.</p>
             <div class="app-foot">
-              <a class="dl" href="https://github.com/boldo3108/organizador-fotos/releases/download/v1.0/Organizador_de_Fotos.exe">Descargar <span class="mono">13 MB</span></a>
-              <a class="vers mono" href="https://github.com/boldo3108/organizador-fotos/releases" target="_blank" rel="noopener">Versiones</a>
+              <span class="dl off" aria-disabled="true">Descargar <span class="mono">pronto</span></span>
             </div>
           </article>
         </div>
