@@ -4,159 +4,249 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Portafolio Boldo3108</title>
-<meta name="description" content="Portafolio de Boldo3108: mi bitácora de lo que aprendo y creo con inteligencia artificial.">
+<meta name="description" content="Boldo3108: bitácora de Patricio, aprendiendo y creando con inteligencia artificial desde Chile.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Epilogue:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
-/* Layout: una sola página con scroll suave; portada tipográfica grande, luego secciones en una columna de 1120px con grillas que bajan a 1 columna en celular */
+/* Layout: una bitácora. Marco de 1120px; la marca ocupa todo el ancho arriba y sus letras huecas se llenan a medida que recorres la página. Secciones con etiqueta lateral fija y contenido a la derecha. El único color es la B y el 3. */
 :root{
-  --bg:#F2F2F0; --surface:#FFFFFF; --fg:#16171A; --muted:#5E616B; --line:#D9D9D4;
-  --accent:#2D5BE3; --accent-fg:#FFFFFF; --green:#17A35A; --orange:#F2711C;
-  --display:"Space Grotesk", "Segoe UI", system-ui, sans-serif;
-  --body:"Epilogue", "Segoe UI", system-ui, sans-serif;
-  --r:10px;
+  --bg:#F7F7F5; --ink:#141414; --muted:#6E6E6A; --faint:#A3A39E; --line:#E4E4E0; --card:#FFFFFF;
+  --green:#169C55; --orange:#E8691A;
+  --sans:"Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --s-1:13px; --s0:16px; --s1:19px;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#131418; --surface:#1C1D22; --fg:#ECECE8; --muted:#A2A5AE; --line:#2E3038;
-  --accent:#6A8CFF; --accent-fg:#0E1020; --green:#3BD283; --orange:#FF8A3D; color-scheme:dark}}
+  --bg:#0F0F0E; --ink:#ECECE8; --muted:#9A9A94; --faint:#5F5F5B; --line:#262624; --card:#161615;
+  --green:#3CCB7F; --orange:#FF8A3D; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#131418; --surface:#1C1D22; --fg:#ECECE8; --muted:#A2A5AE; --line:#2E3038;
-  --accent:#6A8CFF; --accent-fg:#0E1020; --green:#3BD283; --orange:#FF8A3D; color-scheme:dark}
+  --bg:#0F0F0E; --ink:#ECECE8; --muted:#9A9A94; --faint:#5F5F5B; --line:#262624; --card:#161615;
+  --green:#3CCB7F; --orange:#FF8A3D; color-scheme:dark}
 
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6}
-.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-a{color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
-h1,h2,h3{font-family:var(--display);line-height:1.05;text-wrap:balance;margin:0}
-.label{font-family:var(--display);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:var(--s0);line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{text-decoration-color:var(--muted)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px}
+h1,h2,h3{margin:0;font-weight:600;text-wrap:balance}
+p{margin:0}
+.mono{font-family:var(--mono);font-size:var(--s-1);letter-spacing:.01em}
+.frame{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
 
-/* Navegación */
+/* Barra superior */
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-nav.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
-.logo{font-family:var(--display);font-weight:700;text-decoration:none;font-size:18px;letter-spacing:-.01em}
-.logo b{font-weight:700;--c:var(--green);color:var(--c)} .logo i{font-style:normal;--c:var(--orange);color:var(--c)}
-/* Letras huecas: todo menos la B y el 3 */
-.o{color:transparent;-webkit-text-stroke:var(--sw,1px) var(--c);paint-order:stroke}
-.logo{--sw:1.1px}
-nav.top ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-size:14px}
-nav.top ul a{text-decoration:none;color:var(--muted)} nav.top ul a:hover{color:var(--fg)}
-@media (max-width:640px){nav.top ul{display:none}}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.top .frame{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.status{display:flex;align-items:center;gap:10px;color:var(--muted);min-width:0}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--green) 50%,transparent)}100%{box-shadow:0 0 0 8px transparent}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+.status span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header nav{display:flex;gap:24px}
+header nav a{text-decoration:none;color:var(--muted)} header nav a:hover{color:var(--ink)}
+@media (max-width:620px){header nav{display:none}}
+/* Marca mini: aparece a la derecha cuando la grande sale de la vista y sigue llenándose */
+.right{display:flex;align-items:center;flex:none}
+.word.mini{font-size:24px;line-height:1;letter-spacing:-.05em;text-decoration:none;display:inline-block;overflow:hidden;
+  max-width:0;margin-left:0;opacity:0;transform:translateX(16px) scale(.85);transform-origin:right center;pointer-events:none;
+  transition:max-width .4s ease, margin-left .4s ease, opacity .35s ease, transform .35s ease}
+.word.mini .h{-webkit-text-stroke:1px var(--ink)}
+header.docked .word.mini{max-width:200px;margin-left:28px;opacity:1;transform:none;pointer-events:auto}
 
-/* Portada */
-.hero .wrap{padding-block:72px 56px;display:grid;gap:28px}
-.hero h1{font-size:clamp(56px,13vw,168px);font-weight:700;letter-spacing:-.045em;line-height:.88}
-.hero h1 .pre{display:block;font-size:.28em;letter-spacing:.02em;font-weight:500;color:var(--muted);margin-bottom:.35em}
-.hero h1 .b{--c:var(--green);color:var(--c)} .hero h1 .n{--c:var(--orange);color:var(--c)}
-.hero h1{--sw:clamp(1.5px,.022em,4px)}
-.hero p.lead{font-size:clamp(18px,2.2vw,22px);max-width:42ch;margin:0}
-.hero .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
-.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:500;font-size:15px;padding:12px 20px;border-radius:999px;text-decoration:none;border:1px solid var(--fg);background:transparent;color:var(--fg);cursor:pointer}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
-.btn:hover{transform:translateY(-1px)} .btn{transition:transform .15s}
-.tools{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.tools li{font-family:var(--display);font-size:13px;padding:5px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+/* Marca */
+.mark{padding-block:clamp(48px,9vw,112px) clamp(28px,5vw,56px)}
+.word{font-weight:800;font-size:clamp(40px,15.6vw,190px);line-height:.82;letter-spacing:-.055em;white-space:nowrap;margin:0}
+.word .f{color:var(--c)}
+.word .h{color:transparent;-webkit-text-stroke:clamp(1.2px,.012em,2.4px) var(--ink);transition:color .5s ease}
+.word .h.on{color:var(--ink)}
+.under{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap;margin-top:clamp(18px,3vw,28px);color:var(--muted)}
+.intro{padding-bottom:clamp(56px,8vw,96px)}
+.intro p{font-size:clamp(21px,2.6vw,28px);line-height:1.35;letter-spacing:-.01em;font-weight:500;max-width:30ch}
+.intro p em{font-style:normal;color:var(--muted)}
 
 /* Secciones */
-section.block .wrap{padding-block:72px;border-top:1px solid var(--line);display:grid;gap:32px}
-.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px}
-.head h2{font-size:clamp(34px,5vw,56px);letter-spacing:-.03em}
-.head p{margin:0;max-width:46ch;color:var(--muted)}
+section{border-top:1px solid var(--line)}
+.sec{display:grid;grid-template-columns:200px 1fr;gap:clamp(20px,4vw,48px);padding-block:clamp(48px,7vw,88px)}
+.sec>*{min-width:0}
+.sec-label{display:grid;gap:6px;align-content:start;position:sticky;top:88px;align-self:start}
+.sec-label .n{color:var(--faint)}
+.sec-label h2{font-size:var(--s1);letter-spacing:-.01em}
+@media (max-width:760px){.sec{grid-template-columns:1fr}.sec-label{position:static}}
 
+/* Bitácora */
+.log{list-style:none;margin:0;padding:0;display:grid}
+.entry{display:grid;grid-template-columns:96px 1fr;gap:20px;padding-block:22px;border-bottom:1px solid var(--line)}
+.entry:first-child{padding-top:0}
+.entry time{color:var(--muted);padding-top:4px}
+.entry h3{font-size:var(--s1);letter-spacing:-.01em;margin-bottom:6px}
+.entry p{color:var(--muted);max-width:56ch}
+.entry .tag{display:inline-block;margin-top:10px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 8px}
+.entry.next h3{color:var(--muted)}
+.entry.next time{color:var(--faint)}
+@media (max-width:480px){.entry{grid-template-columns:1fr;gap:6px}}
 
-.apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
-.app{display:grid;grid-template-rows:auto auto 1fr auto;gap:12px;border:1px solid var(--line);border-radius:var(--r);padding:20px;background:var(--surface);min-width:0}
-.app .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--accent);color:var(--accent-fg)}
-.app h3{font-size:20px}
-.app p{margin:0;color:var(--muted);font-size:15px}
-.app .meta{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
-.app .meta a{font-family:var(--display);font-weight:500;color:var(--accent);text-decoration:none}
-.app .meta a:hover{text-decoration:underline}
+/* Aplicaciones: tarjetas de descarga */
+.apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.app{display:grid;grid-template-rows:auto auto 1fr auto;gap:10px;padding:20px;border:1px solid var(--line);border-radius:10px;background:var(--card);min-width:0}
+.app-top{display:flex;justify-content:space-between;gap:8px;color:var(--faint)}
+.app h3{font-size:var(--s1);letter-spacing:-.01em}
+.app p{color:var(--muted);font-size:15px}
+.app-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px}
+.dl{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:8px;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:500;font-size:15px;transition:opacity .15s}
+.dl:hover{opacity:.85}
+.dl .mono{opacity:.7;font-size:12px}
+.vers{color:var(--muted);text-decoration:none} .vers:hover{color:var(--ink);text-decoration:underline}
+.apps-note{margin-top:20px;color:var(--muted);max-width:60ch;font-size:15px}
+@media (max-width:620px){.apps{grid-template-columns:1fr}}
 
-.apps-empty{display:grid;gap:10px;justify-items:start;border:1px dashed var(--line);border-radius:var(--r);padding:28px;background:var(--surface)}
-.apps-empty p{margin:0;max-width:52ch}
+/* Sobre mí */
+.about p.big{font-size:clamp(19px,2vw,22px);line-height:1.5;letter-spacing:-.005em;max-width:46ch}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:32px 0 0;border-top:1px solid var(--line)}
+.facts div{padding:14px 16px 0 0}
+.facts dt{color:var(--faint);margin-bottom:4px}
+.facts dd{margin:0;font-weight:500}
+@media (max-width:480px){.facts{grid-template-columns:1fr 1fr}}
 
-/* Sobre mí + contacto */
-.about{display:grid;grid-template-columns:1.2fr 1fr;gap:40px}
-.about p{margin:0 0 14px;max-width:62ch}
-.facts{display:grid;gap:0;margin:0}
-.facts div{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-.facts dt{color:var(--muted);font-size:14px} .facts dd{margin:0}
-@media (max-width:760px){.about{grid-template-columns:1fr}}
-.contact{display:flex;flex-wrap:wrap;gap:12px}
-footer .wrap{padding-block:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
-
-
+footer{border-top:1px solid var(--line)}
+footer .frame{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:24px 40px;color:var(--muted)}
 </style>
 </head>
 <body>
 
-<nav class="top" aria-label="Principal">
-  <div class="wrap">
-    <a class="logo" href="#inicio" aria-label="BOLDO3108"><b>B<span class="o">OLDO</span></b><i>3<span class="o">108</span></i></a>
-    <ul>
-      <li><a href="#apps">Apps</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-  </div>
-</nav>
-
-<header class="hero" id="inicio">
-  <div class="wrap">
-    <h1><span class="pre">PORTAFOLIO /</span><span class="b">B<span class="o">OLDO</span></span><span class="n">3<span class="o">108</span></span></h1>
-    <p class="lead">Esta página es mi bitácora: aquí comparto lo que aprendo y creo con inteligencia artificial. Pásate seguido, siempre hay algo nuevo.</p>
-    <div class="row">
-      <a class="btn primary" href="#apps">Descargar apps</a>
-      <a class="btn" href="#contacto">Contacto</a>
+<header class="top">
+  <div class="frame">
+    <div class="status mono"><i class="dot" aria-hidden="true"></i><span>Aprendiendo · Chile <span id="clock"></span></span></div>
+    <div class="right">
+      <nav class="mono" aria-label="Secciones">
+        <a href="#bitacora">Bitácora</a>
+        <a href="#apps">Apps</a>
+        <a href="#sobre-mi">Sobre mí</a>
+      </nav>
+      <a class="word mini" href="#inicio" aria-label="BOLDO3108, volver arriba"><span class="f" style="--c:var(--green)">B</span><span class="h">O</span><span class="h">L</span><span class="h">D</span><span class="h">O</span><span class="f" style="--c:var(--orange)">3</span><span class="h">1</span><span class="h">0</span><span class="h">8</span></a>
     </div>
-    <ul class="tools" aria-label="Herramientas">
-      <li>Midjourney</li><li>ChatGPT Image</li><li>Kling</li><li>Sora</li><li>Gemini</li><li>Python</li>
-    </ul>
   </div>
 </header>
 
-<main>
-<section class="block" id="apps">
-  <div class="wrap">
-    <div class="head">
-      <h2>Aplicaciones</h2>
-      <p>Herramientas para Windows que hice yo. Las descargas y actualizaciones están en GitHub.</p>
-    </div>
-    <div class="apps-empty">
-      <p class="label">Próximamente</p>
-      <p>Estoy preparando mis nuevas aplicaciones. Muy pronto vas a poder descargarlas desde aquí.</p>
-      <a class="btn" href="https://github.com/boldo3108" target="_blank" rel="noopener">Ver mi GitHub</a>
-    </div>
+<main id="inicio">
+  <div class="frame mark">
+    <h1 class="word" aria-label="BOLDO3108"><span class="f" style="--c:var(--green)">B</span><span class="h">O</span><span class="h">L</span><span class="h">D</span><span class="h">O</span><span class="f" style="--c:var(--orange)">3</span><span class="h">1</span><span class="h">0</span><span class="h">8</span></h1>
+    <div class="under mono"><span>Portafolio de Patricio</span><span>Desliza: las letras se llenan mientras recorres</span></div>
   </div>
-</section>
 
-<section class="block" id="contacto">
-  <div class="wrap">
-    <div class="about">
-      <div>
-        <h2 style="font-size:clamp(34px,5vw,56px);letter-spacing:-.03em;margin-bottom:20px">Sobre mí</h2>
-        <p>Soy Boldo, creador autodidacta con IA. Hago imágenes, videos, música, emotes y escribo prompts en español e inglés para sacar lo mejor de cada herramienta.</p>
-        <p>También programo mis propias aplicaciones con ayuda de IA, y tengo un emprendimiento de impresión 3D, BOLDO3D.</p>
-        <div class="contact">
-          <a class="btn primary" href="https://www.instagram.com/boldo3108" target="_blank" rel="noopener">Instagram @boldo3108</a>
-          <a class="btn" href="https://github.com/boldo3108" target="_blank" rel="noopener">GitHub boldo3108</a>
-        </div>
-      </div>
-      <dl class="facts">
-        <div><dt>Ubicación</dt><dd>Chile</dd></div>
-        <div><dt>Idioma</dt><dd>Español</dd></div>
-        <div><dt>Encargos</dt><dd>Escríbeme por Instagram</dd></div>
-      </dl>
-    </div>
+  <div class="frame intro">
+    <p>Esta página es mi bitácora: aquí comparto lo que aprendo y creo con inteligencia artificial. <em>Pásate seguido, siempre hay algo nuevo.</em></p>
   </div>
-</section>
+
+  <section id="bitacora">
+    <div class="frame sec">
+      <div class="sec-label"><span class="n mono">01</span><h2>Bitácora</h2></div>
+      <ol class="log">
+        <li class="entry">
+          <time class="mono" datetime="2026-10-26">26 oct 2026</time>
+          <div><h3>Publiqué mis primeras 4 apps</h3><p>Convertidor de Audio Pro, Convertidor de Imágenes, Organizador de Fotos y Voxia ya se pueden descargar gratis desde aquí.</p><span class="tag mono">apps</span></div>
+        </li>
+        <li class="entry">
+          <time class="mono" datetime="2026-10-26">26 oct 2026</time>
+          <div><h3>Rediseño de la página</h3><p>Probé un estilo de vidrio con mucho color y lo descarté: para un portafolio, menos es más.</p><span class="tag mono">diseño</span></div>
+        </li>
+        <li class="entry">
+          <time class="mono" datetime="2026-10-21">21 oct 2026</time>
+          <div><h3>Nace boldo3108.cl</h3><p>Registré mi dominio, subí la primera versión a GitHub y la publiqué en Vercel.</p><span class="tag mono">web</span></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="apps">
+    <div class="frame sec">
+      <div class="sec-label"><span class="n mono">02</span><h2>Aplicaciones</h2></div>
+      <div>
+        <div class="apps">
+          <article class="app">
+            <div class="app-top mono"><span>01</span><span>v1.3.0 · Windows</span></div>
+            <h3>Voxia</h3>
+            <p>App de voz para streams: lee tu chat en voz alta en español, inglés y portugués. Portable, sin instalación.</p>
+            <div class="app-foot">
+              <a class="dl" href="https://github.com/boldo3108/voxia/releases/download/v1.3.0/Voxia-1.3.0-portable.zip">Descargar <span class="mono">35 MB</span></a>
+              <a class="vers mono" href="https://github.com/boldo3108/voxia/releases" target="_blank" rel="noopener">Versiones</a>
+            </div>
+          </article>
+          <article class="app">
+            <div class="app-top mono"><span>02</span><span>v1.0 · Windows</span></div>
+            <h3>Convertidor de Audio Pro</h3>
+            <p>Convierte archivos de audio a MP3 y otros formatos en pocos clics.</p>
+            <div class="app-foot">
+              <a class="dl" href="https://github.com/boldo3108/convertidor-audio-pro/releases/download/v1.0/Convertidor_MP3_Pro.exe">Descargar <span class="mono">47 MB</span></a>
+              <a class="vers mono" href="https://github.com/boldo3108/convertidor-audio-pro/releases" target="_blank" rel="noopener">Versiones</a>
+            </div>
+          </article>
+          <article class="app">
+            <div class="app-top mono"><span>03</span><span>v1.0 · Windows</span></div>
+            <h3>Convertidor de Imágenes</h3>
+            <p>Cambia el formato de tus imágenes: PNG, JPG, WebP y más.</p>
+            <div class="app-foot">
+              <a class="dl" href="https://github.com/boldo3108/convertidor-imagenes/releases/download/v1.0/Convertidor_Imagenes.exe">Descargar <span class="mono">25 MB</span></a>
+              <a class="vers mono" href="https://github.com/boldo3108/convertidor-imagenes/releases" target="_blank" rel="noopener">Versiones</a>
+            </div>
+          </article>
+          <article class="app">
+            <div class="app-top mono"><span>04</span><span>v1.0 · Windows</span></div>
+            <h3>Organizador de Fotos</h3>
+            <p>Revisa una carpeta, detecta las fotos duplicadas y las separa de las únicas.</p>
+            <div class="app-foot">
+              <a class="dl" href="https://github.com/boldo3108/organizador-fotos/releases/download/v1.0/Organizador_de_Fotos.exe">Descargar <span class="mono">13 MB</span></a>
+              <a class="vers mono" href="https://github.com/boldo3108/organizador-fotos/releases" target="_blank" rel="noopener">Versiones</a>
+            </div>
+          </article>
+        </div>
+        <p class="apps-note">Todas son gratis y no necesitan instalación. Como son apps independientes sin firma digital, Windows puede mostrar «Windows protegió su PC»: toca <em>Más información → Ejecutar de todas formas</em>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre-mi">
+    <div class="frame sec about">
+      <div class="sec-label"><span class="n mono">03</span><h2>Sobre mí</h2></div>
+      <div>
+        <p class="big">Soy Patricio, creador autodidacta con IA. Hago aplicaciones, imágenes, emotes y escribo prompts en español e inglés para sacar lo mejor de cada herramienta.</p>
+        <dl class="facts">
+          <div><dt class="mono">Ubicación</dt><dd>Chile</dd></div>
+          <div><dt class="mono">Idioma</dt><dd>Español</dd></div>
+          <div><dt class="mono">Estado</dt><dd>Aprendiendo</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer><div class="wrap"><span>© 2026 Boldo3108</span><span>Hecho con IA, desde Chile</span></div></footer>
+<footer><div class="frame mono"><span>© 2026 Boldo3108</span><span>Última entrada: 26 oct 2026</span></div></footer>
 
+<script>
+// Hora de Chile en la barra superior
+(function(){
+  var el=document.getElementById("clock");
+  function tick(){try{el.textContent="· "+new Intl.DateTimeFormat("es-CL",{hour:"2-digit",minute:"2-digit",timeZone:"America/Santiago"}).format(new Date());}catch(e){}}
+  tick();setInterval(tick,30000);
+})();
+// Las letras huecas se llenan según cuánto has recorrido la página
+(function(){
+  var groups=[].slice.call(document.querySelectorAll(".word")).map(function(w){return [].slice.call(w.querySelectorAll(".h"));});
+  var header=document.querySelector("header.top"), big=document.querySelector("h1.word");
+  function update(){
+    var max=document.documentElement.scrollHeight-innerHeight;
+    var p=max>0?Math.min(1,scrollY/max):0;
+    groups.forEach(function(letters){
+      var n=Math.round(p*letters.length);
+      letters.forEach(function(l,i){l.classList.toggle("on",i<n);});
+    });
+    // Cuando la marca grande sale de la vista, aparece la mini a la derecha
+    header.classList.toggle("docked", big.getBoundingClientRect().bottom < header.offsetHeight);
+  }
+  addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
+})();
+</script>
 </body>
 </html>
