@@ -7,241 +7,396 @@
 <meta name="description" content="Boldo3108: bitácora de Patricio, aprendiendo y creando con inteligencia artificial desde Chile.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;800&family=Geist+Mono:wght@400;500&family=JetBrains+Mono:wght@800&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
-/* Layout: una bitácora. Marco de 1120px; la marca ocupa todo el ancho arriba y sus letras huecas se llenan a medida que recorres la página. Secciones con etiqueta lateral fija y contenido a la derecha. El único color es la B y el 3. */
-/* Tema único oscuro: fondo azul noche #080C14 elegido por Patricio */
+/* Layout: panel tipo app. Foto (o paisaje pintado) de fondo fijo; barra superior con píldoras, dock lateral, y una vista activa a la vez que entra con desenfoque. Tema único oscuro y cálido: el color lo pone el fondo. */
 :root{
-  --bg:#080C14; --ink:#E9EDF5; --muted:#98A1B3; --faint:#566074; --line:#1A2233; --card:#0E1420;
-  --green:#3CCB7F; --orange:#FF8A3D; color-scheme:dark;
+  --bg:#080C14; --ink:#F2F4FA; --muted:rgba(242,244,250,.66); --faint:rgba(242,244,250,.4);
+  --glass:rgba(10,13,24,.46); --glass-2:rgba(255,255,255,.07); --glass-3:rgba(255,255,255,.13);
+  --edge:rgba(255,255,255,.14); --edge-hi:rgba(255,255,255,.22);
+  --green:#3CCB7F; --orange:#FF8A3D;
+  --t-blue:#4D6FA8; --t-gold:#A88A52; --t-violet:#6E5BA8; --t-green:#4F8F6A;
+  --blur:blur(26px) saturate(135%);
   --sans:"Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
   --mono:"Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-  --s-1:13px; --s0:16px; --s1:19px;
+  --r:22px; color-scheme:dark;
 }
-
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:var(--s0);line-height:1.65;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration-thickness:1px;text-underline-offset:3px}
-a:hover{text-decoration-color:var(--muted)}
-:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:8px}
 h1,h2,h3{margin:0;font-weight:600;text-wrap:balance}
 p{margin:0}
-.mono{font-family:var(--mono);font-size:var(--s-1);letter-spacing:.01em}
-.frame{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.01em}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
-/* Barra superior */
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-header.top .frame{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
-.status{display:flex;align-items:center;gap:10px;color:var(--muted);min-width:0}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none;animation:pulse 2.4s ease-out infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--green) 50%,transparent)}100%{box-shadow:0 0 0 8px transparent}}
-@media (prefers-reduced-motion:reduce){.dot{animation:none}}
-.status span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-header nav{display:flex;gap:24px}
-header nav a{text-decoration:none;color:var(--muted)} header nav a:hover{color:var(--ink)}
-@media (max-width:620px){header nav{display:none}}
-/* Marca mini: aparece a la derecha cuando la grande sale de la vista y sigue llenándose */
-.right{display:flex;align-items:center;flex:none}
-.word.mini{font-size:24px;line-height:1;letter-spacing:-.05em;text-decoration:none;display:inline-block;overflow:hidden;
-  max-width:0;margin-left:0;opacity:0;transform:translateX(16px) scale(.85);transform-origin:right center;pointer-events:none;
-  transition:max-width .4s ease, margin-left .4s ease, opacity .35s ease, transform .35s ease}
-.word.mini .h{-webkit-text-stroke:1px var(--ink)}
-header.docked .word.mini{max-width:200px;margin-left:28px;opacity:1;transform:none;pointer-events:auto}
+/* Fondo */
+#scene,#photo{position:fixed;inset:0;width:100%;height:100%;z-index:-2;object-fit:cover;object-position:50% 45%}
+#photo{opacity:0;transition:opacity .8s}
+#photo.on{opacity:1}
+.shade{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(4,6,12,.45),rgba(4,6,12,.1) 45%,rgba(4,6,12,.5))}
 
-/* Marca */
-.mark{padding-block:clamp(48px,9vw,112px) clamp(28px,5vw,56px)}
-.word{font-weight:800;font-size:clamp(40px,15.6vw,190px);line-height:.82;letter-spacing:-.055em;white-space:nowrap;margin:0}
-.word .f{color:var(--c)}
-.word .h{color:transparent;-webkit-text-stroke:clamp(1.2px,.012em,2.4px) var(--ink);transition:color .5s ease}
-.word .h.on{color:var(--ink)}
-.under{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap;margin-top:clamp(18px,3vw,28px);color:var(--muted)}
-.intro{padding-bottom:clamp(56px,8vw,96px)}
-.intro p{font-size:clamp(21px,2.6vw,28px);line-height:1.35;letter-spacing:-.01em;font-weight:500;max-width:30ch}
-.intro p em{font-style:normal;color:var(--muted)}
+/* Vidrio */
+.glass{background:var(--glass);border:1px solid var(--edge);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);
+  box-shadow:inset 0 1px 0 var(--edge-hi),0 20px 50px -24px rgba(0,0,0,.55);border-radius:var(--r)}
+.chip{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;background:var(--glass-2);border:1px solid var(--edge);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);text-decoration:none;white-space:nowrap}
 
-/* Secciones */
-section{border-top:1px solid var(--line)}
-.sec{display:grid;grid-template-columns:200px 1fr;gap:clamp(20px,4vw,48px);padding-block:clamp(48px,7vw,88px)}
-.sec>*{min-width:0}
-.sec-label{display:grid;gap:6px;align-content:start;position:sticky;top:88px;align-self:start}
-.sec-label .n{color:var(--faint)}
-.sec-label h2{font-size:var(--s1);letter-spacing:-.01em}
-@media (max-width:760px){.sec{grid-template-columns:1fr}.sec-label{position:static}}
+/* Estructura */
+.app{min-height:100%;display:grid;grid-template-columns:72px 1fr;grid-template-rows:auto 1fr;
+  padding:max(14px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));gap:16px 18px}
+header.top{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.left{display:flex;gap:10px;align-items:center;min-width:0}
+.right{display:flex;gap:10px;align-items:center;justify-content:flex-end;min-width:0}
 
-/* Bitácora */
-.log{list-style:none;margin:0;padding:0;display:grid}
-.entry{display:grid;grid-template-columns:96px 1fr;gap:20px;padding-block:22px;border-bottom:1px solid var(--line)}
-.entry:first-child{padding-top:0}
-.entry time{color:var(--muted);padding-top:4px}
-.entry h3{font-size:var(--s1);letter-spacing:-.01em;margin-bottom:6px}
-.entry p{color:var(--muted);max-width:56ch}
-.entry .tag{display:inline-block;margin-top:10px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 8px}
-.entry.next h3{color:var(--muted)}
-.entry.next time{color:var(--faint)}
-@media (max-width:480px){.entry{grid-template-columns:1fr;gap:6px}}
+/* Marca mini */
+.mark{display:inline-flex;align-items:baseline;font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-weight:800;letter-spacing:-.03em;line-height:1;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.mark .dim{color:var(--faint);margin-right:.04em}
+.mark .o{color:var(--orange)}
+/* Cursor de terminal que parpadea */
+.mark .cur{display:inline-block;width:.5em;height:.82em;margin-left:.08em;background:var(--orange);align-self:center;transform:translateY(.04em);animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+header .mark{font-size:20px;padding-left:4px;padding-right:4px}
 
-/* Aplicaciones: tarjetas de descarga */
-.apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.app{display:grid;grid-template-rows:auto auto 1fr auto;gap:10px;padding:20px;border:1px solid var(--line);border-radius:10px;background:var(--card);min-width:0}
-.app-top{display:flex;justify-content:space-between;gap:8px;color:var(--faint)}
-.app h3{font-size:var(--s1);letter-spacing:-.01em}
-.app p{color:var(--muted);font-size:15px}
-.app-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px}
-.dl{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:8px;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:500;font-size:15px;transition:opacity .15s}
-.dl:hover{opacity:.85}
-.dl.off{background:var(--line);color:var(--faint);cursor:not-allowed;pointer-events:none}
-.soon{color:var(--muted)}
-.dl .mono{opacity:.7;font-size:12px}
-.vers{color:var(--muted);text-decoration:none} .vers:hover{color:var(--ink);text-decoration:underline}
-.apps-note{margin-top:20px;color:var(--muted);max-width:60ch;font-size:15px}
-@media (max-width:620px){.apps{grid-template-columns:1fr}}
+/* Píldoras */
+nav.pills{display:flex;gap:6px;padding:5px;border-radius:999px}
+nav.pills button{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer;transition:background .25s,color .25s}
+nav.pills button:hover{color:var(--ink);background:var(--glass-2)}
+nav.pills button[aria-current="page"]{background:var(--ink);color:#16120F}
+nav.pills svg{width:15px;height:15px}
+.status-chip .sep{color:var(--faint)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(60,203,127,.5)}100%{box-shadow:0 0 0 8px transparent}}
+.avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:600;background:linear-gradient(140deg,#FFA25E,#E8691A);color:#20140B;position:relative;flex:none}
+.avatar::after{content:"";position:absolute;right:-1px;bottom:-1px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid #141a2a}
+
+/* Dock */
+aside.dock{box-sizing:border-box;width:56px;padding:7px;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:999px;justify-self:center;align-self:start;position:sticky;top:calc(env(safe-area-inset-top,0px) + 92px);margin-top:76px}
+aside.dock button,aside.dock a{box-sizing:border-box;flex:none;padding:0;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:0;background:transparent;color:var(--muted);cursor:pointer;text-decoration:none;transition:background .25s,color .25s}
+aside.dock button:hover,aside.dock a:hover{background:var(--glass-2);color:var(--ink)}
+aside.dock button[aria-current="page"]{background:var(--ink);color:#16120F}
+aside.dock svg{width:18px;height:18px;display:block}
+/* Etiqueta al pasar el cursor por el dock */
+aside.dock{z-index:30}
+aside.dock button,aside.dock a{position:relative}
+aside.dock [aria-label]::after{content:attr(aria-label);position:absolute;left:calc(100% + 14px);top:50%;transform:translate(-6px,-50%);opacity:0;pointer-events:none;white-space:nowrap;
+  padding:6px 11px;border-radius:9px;background:rgba(10,13,24,.88);border:1px solid var(--edge);color:var(--ink);font:500 12.5px/1.2 var(--sans);
+  box-shadow:0 8px 24px -10px rgba(0,0,0,.6);transition:opacity .18s ease,transform .18s ease}
+@media (hover:hover){aside.dock [aria-label]:hover::after{opacity:1;transform:translate(0,-50%)}}
+aside.dock [aria-label]:focus-visible::after{opacity:1;transform:translate(0,-50%)}
+aside.dock hr{border:0;height:1px;width:24px;background:var(--edge);margin:4px 0}
+
+/* Vistas */
+main{min-width:0;max-width:1180px;width:100%;justify-self:center}
+.view{display:grid;gap:18px;align-content:start}
+.view-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;padding:6px 4px 2px}
+.view-head h1{font-size:clamp(24px,3vw,30px);letter-spacing:-.02em}
+.view-head p{color:var(--muted)}
+.enter>*{animation:enter .7s cubic-bezier(.2,.7,.2,1) both}
+.enter>*:nth-child(2){animation-delay:.06s}.enter>*:nth-child(3){animation-delay:.12s}.enter>*:nth-child(4){animation-delay:.18s}
+@keyframes enter{from{opacity:0;filter:blur(14px);transform:translateY(10px) scale(.99)}to{opacity:1;filter:none;transform:none}}
+
+/* Inicio */
+.hero{padding:clamp(24px,4vw,44px);display:grid;gap:22px;overflow:hidden}
+.hero .mark{font-size:clamp(40px,8.6vw,108px)}
+.hero p{font-size:clamp(18px,2vw,22px);line-height:1.4;max-width:34ch}
+.hero p em{font-style:normal;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.stat{padding:18px;display:grid;gap:10px;min-width:0}
+.stat .ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--glass-3)}
+.stat .ico svg{width:17px;height:17px}
+.stat b{font-size:26px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{color:var(--muted)}
+.row2{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+.panel{padding:20px;display:grid;gap:14px;align-content:start;min-width:0}
+.panel h2{font-size:16px}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.link{background:none;border:0;padding:0;color:var(--muted);cursor:pointer;text-decoration:none}
+.link:hover{color:var(--ink)}
+@media (max-width:980px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.row2{grid-template-columns:1fr}}
+
+/* Lista de bitácora */
+.log{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.log li{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:14px;border-radius:16px;background:var(--glass-2);border:1px solid var(--edge)}
+.log .badge{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--glass-3);flex:none}
+.log .badge svg{width:17px;height:17px}
+.log h3{font-size:15px;margin-bottom:2px}
+.log p{color:var(--muted)}
+.log .meta{display:flex;gap:10px;align-items:center;margin-bottom:4px;color:var(--faint)}
+.tag{display:inline-block;padding:1px 8px;border-radius:999px;background:var(--glass-3);color:var(--muted)}
+
+/* Apps */
+.filters{display:flex;gap:4px;padding:4px;border-radius:999px}
+.filters button{height:30px;padding:0 14px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:#16120F}
+.apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.card{padding:10px;display:grid;grid-template-rows:auto auto 1fr auto;gap:12px;min-width:0;transition:transform .3s,border-color .3s}
+.card:hover{transform:translateY(-3px);border-color:var(--edge-hi)}
+.thumb{height:118px;border-radius:14px;position:relative;padding:14px;display:flex;justify-content:space-between;align-items:flex-start;
+  background:linear-gradient(150deg,color-mix(in srgb,var(--tint) 92%,#fff 8%),color-mix(in srgb,var(--tint) 70%,#000 30%));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.thumb svg{width:22px;height:22px;color:rgba(255,255,255,.92)}
+.thumb .state{position:absolute;right:12px;bottom:12px;padding:2px 10px;border-radius:999px;background:rgba(0,0,0,.28);color:rgba(255,255,255,.9)}
+.card h3{font-size:16px;padding:0 6px}
+.card p{color:var(--muted);padding:0 6px}
+.card-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 6px 6px;border-top:1px solid var(--edge);flex-wrap:wrap}
+.card-foot .mono{color:var(--faint)}
+.dl{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;background:var(--ink);color:#16120F;text-decoration:none;font-weight:500;transition:opacity .2s}
+.dl:hover{opacity:.88}
+.dl svg{width:15px;height:15px}
+.dl.off{background:var(--glass-3);color:var(--faint);pointer-events:none;cursor:not-allowed}
+.note{color:var(--muted);padding:16px 18px}
+.note em{font-style:normal;color:var(--ink)}
 
 /* Sobre mí */
-.about p.big{font-size:clamp(19px,2vw,22px);line-height:1.5;letter-spacing:-.005em;max-width:46ch}
-.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:32px 0 0;border-top:1px solid var(--line)}
-.facts div{padding:14px 16px 0 0}
+.about{display:grid;grid-template-columns:320px 1fr;gap:14px;align-items:start}
+.profile{padding:28px 22px;display:grid;justify-items:center;gap:10px;text-align:center}
+.profile .avatar{width:96px;height:96px;font-size:36px}
+.profile .avatar::after{width:18px;height:18px;border-width:3px}
+.profile h2{font-size:20px;margin-top:6px}
+.online{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:999px;background:rgba(60,203,127,.15);color:var(--green)}
+.profile .actions{display:flex;gap:8px;margin-top:8px}
+.about-text p.big{font-size:clamp(20px,2.2vw,26px);line-height:1.35;letter-spacing:-.01em}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+.facts div{padding:14px;border-radius:14px;background:var(--glass-2);border:1px solid var(--edge)}
 .facts dt{color:var(--faint);margin-bottom:4px}
 .facts dd{margin:0;font-weight:500}
-@media (max-width:480px){.facts{grid-template-columns:1fr 1fr}}
+@media (max-width:860px){.about{grid-template-columns:1fr}}
 
-footer{border-top:1px solid var(--line)}
-footer .frame{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:24px 40px;color:var(--muted)}
+/* Celular */
+@media (max-width:760px){
+  .app{grid-template-columns:1fr;gap:14px}
+  .app{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  /* En el celular el dock pasa a ser una barra flotante abajo */
+  aside.dock{position:fixed;z-index:20;top:auto;bottom:max(14px,env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);margin:0;width:auto;flex-direction:row;align-self:auto}
+  aside.dock hr{width:1px;height:24px;margin:0 4px}
+  .facts{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
 
-<header class="top">
-  <div class="frame">
-    <div class="status mono"><i class="dot" aria-hidden="true"></i><span>Aprendiendo · Chile <span id="clock"></span></span></div>
+<canvas id="scene" aria-hidden="true"></canvas>
+<img id="photo" class="on" src="fondo.jpg" alt="" aria-hidden="true">
+<div class="shade" aria-hidden="true"></div>
+
+<div class="app">
+  <header class="top">
+    <div class="left">
+      <a class="mark" href="#inicio" data-go="inicio" aria-label="Boldo3108, ir al inicio"><span class="dim">~/</span>boldo<span class="o">3108</span><span class="cur" aria-hidden="true"></span></a>
+    </div>
     <div class="right">
-      <nav class="mono" aria-label="Secciones">
-        <a href="#bitacora">Bitácora</a>
-        <a href="#apps">Apps</a>
-        <a href="#sobre-mi">Sobre mí</a>
-      </nav>
-      <a class="word mini" href="#inicio" aria-label="BOLDO3108, volver arriba"><span class="f" style="--c:var(--green)">B</span><span class="h">O</span><span class="h">L</span><span class="h">D</span><span class="h">O</span><span class="f" style="--c:var(--orange)">3</span><span class="h">1</span><span class="h">0</span><span class="h">8</span></a>
+      <span class="chip status-chip mono"><i class="dot" aria-hidden="true"></i><span class="txt">Chile</span><span class="sep">·</span><span id="clock"></span></span>
     </div>
-  </div>
-</header>
+  </header>
 
-<main id="inicio">
-  <div class="frame mark">
-    <h1 class="word" aria-label="BOLDO3108"><span class="f" style="--c:var(--green)">B</span><span class="h">O</span><span class="h">L</span><span class="h">D</span><span class="h">O</span><span class="f" style="--c:var(--orange)">3</span><span class="h">1</span><span class="h">0</span><span class="h">8</span></h1>
-    <div class="under mono"><span>Portafolio de Patricio</span></div>
-  </div>
+  <aside class="dock glass" aria-label="Accesos">
+    <button type="button" data-go="inicio" aria-label="Inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></button>
+    <button type="button" data-go="bitacora" aria-label="Bitácora"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M8 9h6M8 13h6"/></svg></button>
+    <button type="button" data-go="apps" aria-label="Apps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></button>
+    <button type="button" data-go="sobre-mi" aria-label="Sobre mí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button>
+    <hr>
+    <a href="https://github.com/boldo3108" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4 1.5-4-2-6-2.5M15 22v-3.5a3 3 0 0 0-.9-2.4c3-.3 6-1.5 6-6.6a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.7 1.4a12.7 12.7 0 0 0-6.6 0C5.7 1.9 4.6 2.2 4.6 2.2a4.8 4.8 0 0 0-.1 3.6A5.2 5.2 0 0 0 3 9.4c0 5.1 3 6.3 6 6.6a3 3 0 0 0-.9 2.4V22"/></svg></a>
+  </aside>
 
-  <div class="frame intro">
-    <p>Esta página es mi bitácora: aquí comparto lo que aprendo y creo con inteligencia artificial. <em>Pásate seguido, siempre hay algo nuevo.</em></p>
-  </div>
-
-  <section id="bitacora">
-    <div class="frame sec">
-      <div class="sec-label"><span class="n mono">01</span><h2>Bitácora</h2></div>
-      <ol class="log">
-        <li class="entry">
-          <time class="mono" datetime="2026-10-26">26 oct 2026</time>
-          <div><h3>Publiqué mis primeras apps</h3><p>Voxia, Convertidor de Audio Pro y Convertidor de Imágenes ya se pueden descargar gratis desde aquí. El Organizador de Fotos llega pronto.</p><span class="tag mono">apps</span></div>
-        </li>
-        <li class="entry">
-          <time class="mono" datetime="2026-10-26">26 oct 2026</time>
-          <div><h3>Rediseño de la página</h3><p>Probé un estilo de vidrio con mucho color y lo descarté: para un portafolio, menos es más.</p><span class="tag mono">diseño</span></div>
-        </li>
-        <li class="entry">
-          <time class="mono" datetime="2026-10-21">21 oct 2026</time>
-          <div><h3>Nace boldo3108.cl</h3><p>Registré mi dominio, subí la primera versión a GitHub y la publiqué en Vercel.</p><span class="tag mono">web</span></div>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <section id="apps">
-    <div class="frame sec">
-      <div class="sec-label"><span class="n mono">02</span><h2>Aplicaciones</h2></div>
-      <div>
-        <div class="apps">
-          <article class="app">
-            <div class="app-top mono"><span>01</span><span>v1.3.0 · Windows</span></div>
-            <h3>Voxia</h3>
-            <p>App de voz para streams: lee tu chat en voz alta en español, inglés y portugués. Portable, sin instalación.</p>
-            <div class="app-foot">
-              <a class="dl" href="https://github.com/boldo3108/voxia/releases/download/v1.3.0/Voxia-1.3.0-portable.zip">Descargar <span class="mono">35 MB</span></a>
-              <a class="vers mono" href="https://github.com/boldo3108/voxia/releases" target="_blank" rel="noopener">Versiones</a>
-            </div>
-          </article>
-          <article class="app">
-            <div class="app-top mono"><span>02</span><span>v1.0 · Windows</span></div>
-            <h3>Convertidor de Audio Pro</h3>
-            <p>Convierte archivos de audio a MP3 y otros formatos en pocos clics.</p>
-            <div class="app-foot">
-              <a class="dl" href="https://github.com/boldo3108/convertidor-audio-pro/releases/download/v1.0/Convertidor_MP3_Pro.exe">Descargar <span class="mono">47 MB</span></a>
-              <a class="vers mono" href="https://github.com/boldo3108/convertidor-audio-pro/releases" target="_blank" rel="noopener">Versiones</a>
-            </div>
-          </article>
-          <article class="app">
-            <div class="app-top mono"><span>03</span><span>v1.0 · Windows</span></div>
-            <h3>Convertidor de Imágenes</h3>
-            <p>Cambia el formato de tus imágenes: PNG, JPG, WebP y más.</p>
-            <div class="app-foot">
-              <a class="dl" href="https://github.com/boldo3108/convertidor-imagenes/releases/download/v1.0/Convertidor_Imagenes.exe">Descargar <span class="mono">25 MB</span></a>
-              <a class="vers mono" href="https://github.com/boldo3108/convertidor-imagenes/releases" target="_blank" rel="noopener">Versiones</a>
-            </div>
-          </article>
-          <article class="app">
-            <div class="app-top mono"><span>04</span><span class="soon">Próximamente</span></div>
-            <h3>Organizador de Fotos</h3>
-            <p>Revisa una carpeta, detecta las fotos duplicadas y las separa de las únicas.</p>
-            <div class="app-foot">
-              <span class="dl off" aria-disabled="true">Descargar <span class="mono">pronto</span></span>
-            </div>
-          </article>
+  <main>
+    <!-- INICIO -->
+    <section class="view" id="v-inicio" data-view="inicio">
+      <div class="view-head"><div><h1>Hola, soy Patricio</h1><p>Esto es lo que estoy haciendo con IA</p></div></div>
+      <div class="hero glass">
+        <div class="mark" aria-label="Boldo3108"><span class="dim">~/</span>boldo<span class="o">3108</span><span class="cur" aria-hidden="true"></span></div>
+        <p>Esta página es mi bitácora: aquí comparto lo que aprendo y creo con inteligencia artificial. <em>Pásate seguido, siempre hay algo nuevo.</em></p>
+      </div>
+      <div class="stats">
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b>3</b><span>Apps publicadas</span></div>
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span><b>Gratis</b><span>Todas las descargas</span></div>
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Pronto</b><span>Organizador de Fotos</span></div>
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/></svg></span><b>28 oct</b><span>Última entrada</span></div>
+      </div>
+      <div class="row2">
+        <div class="panel glass">
+          <div class="panel-head"><h2>Lo último en la bitácora</h2><button class="link mono" type="button" data-go="bitacora">Ver todo →</button></div>
+          <ul class="log" data-log="2"></ul>
         </div>
-        <p class="apps-note">Todas son gratis y no necesitan instalación. Como son apps independientes sin firma digital, Windows puede mostrar «Windows protegió su PC»: toca <em>Más información → Ejecutar de todas formas</em>.</p>
+        <div class="panel glass">
+          <div class="panel-head"><h2>Descarga destacada</h2><button class="link mono" type="button" data-go="apps">Todas las apps →</button></div>
+          <div class="apps" data-apps="voxia"></div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="sobre-mi">
-    <div class="frame sec about">
-      <div class="sec-label"><span class="n mono">03</span><h2>Sobre mí</h2></div>
-      <div>
-        <p class="big">Soy Patricio, creador autodidacta con IA.</p>
-        <dl class="facts">
-          <div><dt class="mono">Ubicación</dt><dd>Chile</dd></div>
-          <div><dt class="mono">Idioma</dt><dd>Español</dd></div>
-          <div><dt class="mono">Estado</dt><dd>Aprendiendo</dd></div>
-        </dl>
+    <!-- BITÁCORA -->
+    <section class="view" id="v-bitacora" data-view="bitacora" hidden>
+      <div class="view-head"><div><h1>Bitácora</h1><p>Lo que voy aprendiendo y publicando, en orden</p></div></div>
+      <div class="panel glass"><ul class="log" data-log="all"></ul></div>
+    </section>
+
+    <!-- APPS -->
+    <section class="view" id="v-apps" data-view="apps" hidden>
+      <div class="view-head">
+        <div><h1>Aplicaciones</h1><p>Herramientas para Windows que hice con ayuda de IA</p></div>
+        <div class="filters glass" role="group" aria-label="Filtrar apps">
+          <button type="button" data-f="todas" aria-pressed="true">Todas</button>
+          <button type="button" data-f="disponible" aria-pressed="false">Disponibles</button>
+          <button type="button" data-f="pronto" aria-pressed="false">Próximamente</button>
+        </div>
       </div>
-    </div>
-  </section>
-</main>
+      <div class="apps" data-apps="all"></div>
+      <p class="note glass">Todas son gratis y no necesitan instalación. Como son apps independientes sin firma digital, Windows puede mostrar «Windows protegió su PC»: toca <em>Más información → Ejecutar de todas formas</em>.</p>
+    </section>
 
-<footer><div class="frame mono"><span>© 2026 Boldo3108</span><span>Última entrada: 26 oct 2026</span></div></footer>
+    <!-- SOBRE MÍ -->
+    <section class="view" id="v-sobre-mi" data-view="sobre-mi" hidden>
+      <div class="view-head"><div><h1>Sobre mí</h1><p>Quién está detrás de Boldo3108</p></div></div>
+      <div class="about">
+        <div class="profile glass">
+          <span class="avatar">P</span>
+          <h2>Patricio</h2>
+          <span class="mono" style="color:var(--muted)">Boldo3108</span>
+          <span class="online mono"><i class="dot" aria-hidden="true"></i>Aprendiendo</span>
+          <div class="actions"><a class="chip mono" href="https://github.com/boldo3108" target="_blank" rel="noopener">GitHub</a></div>
+        </div>
+        <div class="panel glass about-text">
+          <p class="big">Soy Patricio, creador autodidacta con IA.</p>
+          <dl class="facts">
+            <div><dt class="mono">Ubicación</dt><dd>Chile</dd></div>
+            <div><dt class="mono">Idioma</dt><dd>Español</dd></div>
+            <div><dt class="mono">Estado</dt><dd>Aprendiendo</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
 
 <script>
-// Hora de Chile en la barra superior
+/* ---------- Datos ---------- */
+var I={
+  dl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>',
+  mic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg>',
+  note:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+  img:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>',
+  copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>',
+  spark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>',
+  globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>'
+};
+var APPS=[
+  {id:"voxia",n:"Voxia",d:"App de voz para streams: lee tu chat en voz alta en español, inglés y portugués.",tint:"var(--t-violet)",ico:"mic",ver:"v1.3.0",size:"35 MB",url:"https://github.com/boldo3108/voxia/releases/download/v1.3.0/Voxia-1.3.0-portable.zip",tag:"Stream"},
+  {id:"audio",n:"Convertidor de Audio Pro",d:"Convierte archivos de audio a MP3 y otros formatos en pocos clics.",tint:"var(--t-blue)",ico:"note",ver:"v1.0",size:"47 MB",url:"https://github.com/boldo3108/convertidor-audio-pro/releases/download/v1.0/Convertidor_MP3_Pro.exe",tag:"Audio"},
+  {id:"img",n:"Convertidor de Imágenes",d:"Cambia el formato de tus imágenes: PNG, JPG, WebP y más.",tint:"var(--t-gold)",ico:"img",ver:"v1.0",size:"25 MB",url:"https://github.com/boldo3108/convertidor-imagenes/releases/download/v1.0/Convertidor_Imagenes.exe",tag:"Imagen"},
+  {id:"fotos",n:"Organizador de Fotos",d:"Revisa una carpeta, detecta las fotos duplicadas y las separa de las únicas.",tint:"var(--t-green)",ico:"copy",ver:null,tag:"Fotos"}
+];
+var LOG=[
+  {d:"28 oct 2026",t:"La página pasa a estilo vidrio",p:"Nuevo diseño tipo panel: secciones que cambian sin recargar y paneles de vidrio sobre un paisaje.",tag:"diseño",ico:"spark"},
+  {d:"26 oct 2026",t:"Publiqué mis primeras apps",p:"Voxia, Convertidor de Audio Pro y Convertidor de Imágenes ya se pueden descargar gratis. El Organizador de Fotos llega pronto.",tag:"apps",ico:"dl"},
+  {d:"26 oct 2026",t:"Rediseño de la página",p:"Probé un estilo con mucho color y lo descarté: para un portafolio, menos es más.",tag:"diseño",ico:"spark"},
+  {d:"21 oct 2026",t:"Nace boldo3108.cl",p:"Registré mi dominio, subí la primera versión a GitHub y la publiqué en Vercel.",tag:"web",ico:"globe"}
+];
+function appCard(a){
+  var foot=a.ver
+    ? '<span class="mono">'+a.ver+' · '+a.size+'</span><a class="dl" href="'+a.url+'">'+I.dl+'Descargar</a>'
+    : '<span class="mono">Windows</span><span class="dl off" aria-disabled="true">'+I.dl+'Pronto</span>';
+  return '<article class="card glass" data-state="'+(a.ver?'disponible':'pronto')+'">'+
+    '<div class="thumb" style="--tint:'+a.tint+'">'+I[a.ico]+'<span class="state mono">'+(a.ver?a.tag:'Próximamente')+'</span></div>'+
+    '<h3>'+a.n+'</h3><p>'+a.d+'</p><div class="card-foot">'+foot+'</div></article>';
+}
+function logItem(e){
+  return '<li><span class="badge">'+I[e.ico]+'</span><div><div class="meta mono"><time>'+e.d+'</time><span class="tag">'+e.tag+'</span></div><h3>'+e.t+'</h3><p>'+e.p+'</p></div></li>';
+}
+document.querySelectorAll("[data-apps]").forEach(function(el){
+  var k=el.dataset.apps; el.innerHTML=APPS.filter(function(a){return k==="all"||a.id===k;}).map(appCard).join("");
+});
+document.querySelectorAll("[data-log]").forEach(function(el){
+  var k=el.dataset.log; el.innerHTML=(k==="all"?LOG:LOG.slice(0,+k)).map(logItem).join("");
+});
+
+/* ---------- Filtros de apps ---------- */
+document.querySelectorAll(".filters button").forEach(function(b){
+  b.addEventListener("click",function(){
+    document.querySelectorAll(".filters button").forEach(function(x){x.setAttribute("aria-pressed",x===b);});
+    document.querySelectorAll('#v-apps .card').forEach(function(c){c.hidden=!(b.dataset.f==="todas"||c.dataset.state===b.dataset.f);});
+  });
+});
+
+/* ---------- Navegación entre vistas ---------- */
+var VIEWS=["inicio","bitacora","apps","sobre-mi"], seen={};
+var letters=[].slice.call(document.querySelectorAll(".mark")).map(function(m){return [].slice.call(m.querySelectorAll(".h"));});
+function fill(){ // la marca se llena según cuántas secciones has visitado
+  var n=Object.keys(seen).length, total=VIEWS.length;
+  letters.forEach(function(ls){var k=Math.round(n/total*ls.length);ls.forEach(function(l,i){l.classList.toggle("on",i<k);});});
+}
+function go(id,push){
+  if(VIEWS.indexOf(id)<0)id="inicio";
+  document.querySelectorAll("[data-view]").forEach(function(v){
+    var on=v.dataset.view===id; v.hidden=!on; v.classList.remove("enter");
+    if(on){void v.offsetWidth; v.classList.add("enter");}
+  });
+  document.querySelectorAll("[data-go]").forEach(function(b){ if(b.tagName==="BUTTON"){ if(b.dataset.go===id)b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); }});
+  seen[id]=1; fill();
+  if(push){try{history.replaceState(null,"","#"+id);}catch(e){}}
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+document.addEventListener("click",function(e){
+  var t=e.target.closest("[data-go]"); if(!t)return; e.preventDefault(); go(t.dataset.go,true);
+});
+go((location.hash||"#inicio").slice(1),false);
+addEventListener("hashchange",function(){go(location.hash.slice(1),false);});
+
+/* ---------- Hora de Chile ---------- */
+(function(){var el=document.getElementById("clock");
+  function t(){try{el.textContent=new Intl.DateTimeFormat("es-CL",{hour:"2-digit",minute:"2-digit",hourCycle:"h23",timeZone:"America/Santiago"}).format(new Date());}catch(e){}}
+  t();setInterval(t,30000);})();
+
+/* ---------- Fondo: tu foto si existe; si no, un atardecer pintado ---------- */
 (function(){
-  var el=document.getElementById("clock");
-  function tick(){try{el.textContent="· "+new Intl.DateTimeFormat("es-CL",{hour:"2-digit",minute:"2-digit",timeZone:"America/Santiago"}).format(new Date());}catch(e){}}
-  tick();setInterval(tick,30000);
+  // Si la foto no carga, se esconde y queda el paisaje pintado
+  var ph=document.getElementById("photo");
+  function fail(){ph.classList.remove("on");window.dispatchEvent(new Event("needscene"));}
+  if(ph.complete&&!ph.naturalWidth)fail(); else ph.addEventListener("error",fail);
 })();
-// Las letras huecas se llenan según cuánto has recorrido la página
 (function(){
-  var groups=[].slice.call(document.querySelectorAll(".word")).map(function(w){return [].slice.call(w.querySelectorAll(".h"));});
-  var header=document.querySelector("header.top"), big=document.querySelector("h1.word");
-  function update(){
-    var max=document.documentElement.scrollHeight-innerHeight;
-    var p=max>0?Math.min(1,scrollY/max):0;
-    groups.forEach(function(letters){
-      var n=Math.round(p*letters.length);
-      letters.forEach(function(l,i){l.classList.toggle("on",i<n);});
+  var c=document.getElementById("scene"), x=c.getContext("2d");
+  function rnd(s){return function(){s=(s*16807)%2147483647;return (s-1)/2147483646;};}
+  function draw(){
+    var W=c.width=Math.round(innerWidth*Math.min(devicePixelRatio||1,2)), H=c.height=Math.round(innerHeight*Math.min(devicePixelRatio||1,2));
+    var hz=H*.56, r=rnd(7);
+    // cielo
+    var g=x.createLinearGradient(0,0,0,hz);
+    g.addColorStop(0,"#2A2F3D");g.addColorStop(.35,"#6B5A5C");g.addColorStop(.7,"#D98E5A");g.addColorStop(1,"#F4C08A");
+    x.fillStyle=g;x.fillRect(0,0,W,hz+2);
+    // sol
+    var sx=W*.62, sy=hz*.92, sg=x.createRadialGradient(sx,sy,0,sx,sy,W*.35);
+    sg.addColorStop(0,"rgba(255,236,190,.95)");sg.addColorStop(.08,"rgba(255,206,140,.7)");sg.addColorStop(1,"rgba(255,170,100,0)");
+    x.fillStyle=sg;x.fillRect(0,0,W,H);
+    // nubes suaves
+    for(var i=0;i<14;i++){x.fillStyle="rgba(255,214,170,"+(.05+r()*.08)+")";x.beginPath();x.ellipse(r()*W,hz*(.2+r()*.5),W*(.08+r()*.18),H*(.008+r()*.018),0,0,7);x.fill();}
+    // cerros en capas
+    var layers=[["#B9826A",.0,.10],["#8E6656",.05,.13],["#5E4740",.1,.17],["#3A2D2A",.16,.22]];
+    layers.forEach(function(L,k){
+      x.fillStyle=L[0];x.beginPath();x.moveTo(0,H);
+      var base=hz-H*.05+H*L[1], amp=H*L[2]*.5, f1=1.5+k, f2=4+k*2, ph1=r()*6, ph2=r()*6;
+      for(var px=0;px<=W;px+=W/120){var y=base-amp*(.55+.3*Math.sin(px/W*f1*Math.PI+ph1)+.15*Math.sin(px/W*f2*Math.PI+ph2));x.lineTo(px,y);}
+      x.lineTo(W,H);x.closePath();x.fill();
+      var hg=x.createLinearGradient(0,base-amp,0,base+H*.1);hg.addColorStop(0,"rgba(244,192,138,"+(.28-k*.06)+")");hg.addColorStop(1,"rgba(244,192,138,0)");
+      x.fillStyle=hg;x.fillRect(0,base-amp,W,H*.3);
     });
-    // Cuando la marca grande sale de la vista, aparece la mini a la derecha
-    header.classList.toggle("docked", big.getBoundingClientRect().bottom < header.offsetHeight);
+    // luces del valle
+    for(i=0;i<70;i++){x.fillStyle="rgba(255,"+(190+r()*50|0)+",120,"+(.3+r()*.6)+")";x.beginPath();x.arc(r()*W,hz+H*(.08+r()*.1),1+r()*1.6,0,7);x.fill();}
+    // interior: piso y muro bajo
+    var fl=H*.86, fg=x.createLinearGradient(0,fl,0,H);fg.addColorStop(0,"#2B201A");fg.addColorStop(1,"#120D0A");
+    x.fillStyle=fg;x.fillRect(0,fl,W,H-fl);
+    var rg=x.createLinearGradient(0,fl,0,H);rg.addColorStop(0,"rgba(244,170,110,.22)");rg.addColorStop(1,"rgba(244,170,110,0)");x.fillStyle=rg;x.fillRect(W*.2,fl,W*.6,H-fl);
+    // marcos del ventanal
+    x.fillStyle="#17110E";
+    x.fillRect(0,0,W,H*.035);x.fillRect(0,fl-H*.012,W,H*.02);
+    [0,.24,.5,.76,1].forEach(function(p){x.fillRect(W*p-W*.007,0,W*.014,fl);});
+    x.fillRect(0,H*.16,W,H*.008);
   }
-  addEventListener("scroll",update,{passive:true});addEventListener("resize",update);update();
+  var on=false, to;
+  function start(){if(on)return;on=true;draw();addEventListener("resize",function(){clearTimeout(to);to=setTimeout(draw,200);});}
+  addEventListener("needscene",start);
+  var ph=document.getElementById("photo"); if(ph.complete&&!ph.naturalWidth)start();
 })();
 </script>
 </body>
