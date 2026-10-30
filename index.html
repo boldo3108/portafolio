@@ -164,8 +164,8 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
 .v-total b{font-size:clamp(34px,4vw,46px);font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
 .v-total span{color:var(--muted)}
 .v-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.v-list li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center}
-.v-list .flag{font-size:20px;line-height:1}
+.v-list li{display:grid;grid-template-columns:32px 1fr auto;gap:10px;align-items:center}
+.v-list .flag{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.04em;text-align:center;padding:4px 0;border-radius:6px;background:var(--glass-3);color:var(--ink)}
 .v-list .bar{height:6px;border-radius:9px;background:var(--glass-3);overflow:hidden;margin-top:6px}
 .v-list .bar i{display:block;height:100%;border-radius:9px;background:var(--orange)}
 .v-list .num{font-variant-numeric:tabular-nums;color:var(--muted)}
@@ -419,14 +419,13 @@ addEventListener("hashchange",function(){go(location.hash.slice(1),false);});
 (function(){
   var tot=document.getElementById("v-total"), sub=document.getElementById("v-sub"), list=document.getElementById("v-list");
   var nombres; try{nombres=new Intl.DisplayNames(["es"],{type:"region"});}catch(e){}
-  function flag(c){return c.replace(/./g,function(ch){return String.fromCodePoint(127397+ch.charCodeAt(0));});}
   function show(d){
     tot.textContent=Number(d.total||0).toLocaleString("es-CL");
     sub.textContent=d.total==1?"visita desde que nació la página":"visitas desde que nació la página";
     var max=d.paises&&d.paises.length?d.paises[0].n:1;
     list.innerHTML=(d.paises||[]).map(function(p){
       var name=nombres?nombres.of(p.c):p.c;
-      return '<li><span class="flag" aria-hidden="true">'+flag(p.c)+'</span><div><div>'+name+'</div><div class="bar"><i style="width:'+Math.max(6,Math.round(p.n/max*100))+'%"></i></div></div><span class="num mono">'+p.n.toLocaleString("es-CL")+'</span></li>';
+      return '<li><span class="flag" aria-hidden="true">'+p.c+'</span><div><div>'+name+'</div><div class="bar"><i style="width:'+Math.max(6,Math.round(p.n/max*100))+'%"></i></div></div><span class="num mono">'+p.n.toLocaleString("es-CL")+'</span></li>';
     }).join("");
   }
   var nueva=true; try{nueva=!sessionStorage.getItem("b3108-visita");sessionStorage.setItem("b3108-visita","1");}catch(e){}
