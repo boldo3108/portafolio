@@ -93,7 +93,7 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
 .view-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;padding:6px 4px 2px}
 .view-head h1{font-size:clamp(24px,3vw,30px);letter-spacing:-.02em}
 .view-head p{color:var(--muted)}
-.enter>*{animation:enter .7s cubic-bezier(.2,.7,.2,1) both}
+.enter>*{animation:enter .7s cubic-bezier(.2,.7,.2,1) backwards}
 .enter>*:nth-child(2){animation-delay:.06s}.enter>*:nth-child(3){animation-delay:.12s}.enter>*:nth-child(4){animation-delay:.18s}
 @keyframes enter{from{opacity:0;filter:blur(14px);transform:translateY(10px) scale(.99)}to{opacity:1;filter:none;transform:none}}
 
@@ -152,8 +152,7 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
 /* Sobre mí */
 .about{display:grid;grid-template-columns:320px 1fr;gap:14px;align-items:start}
 .profile{padding:28px 22px;display:grid;justify-items:center;gap:10px;text-align:center}
-.profile .avatar{width:96px;height:96px;font-size:36px}
-.profile .avatar::after{width:18px;height:18px;border-width:3px}
+.profile .photo{width:132px;height:132px;border-radius:50%;object-fit:cover;display:block;border:2px solid var(--edge-hi);box-shadow:0 12px 30px -12px rgba(0,0,0,.6)}
 .profile h2{font-size:20px;margin-top:6px}
 .online{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:999px;background:rgba(60,203,127,.15);color:var(--green)}
 .profile .actions{display:flex;gap:8px;margin-top:8px}
@@ -209,10 +208,10 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
         <p>Esta página es mi bitácora: aquí comparto lo que aprendo y creo con inteligencia artificial. <em>Pásate seguido, siempre hay algo nuevo.</em></p>
       </div>
       <div class="stats">
-        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b>3</b><span>Apps publicadas</span></div>
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b>4</b><span>Apps publicadas</span></div>
         <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span><b>Gratis</b><span>Todas las descargas</span></div>
-        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Pronto</b><span>Organizador de Fotos</span></div>
-        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/></svg></span><b>28 oct</b><span>Última entrada</span></div>
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Nuevo</b><span>Organizador de Fotos</span></div>
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/></svg></span><b>29 oct</b><span>Última entrada</span></div>
       </div>
       <div class="row2">
         <div class="panel glass">
@@ -251,7 +250,7 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
       <div class="view-head"><div><h1>Sobre mí</h1><p>Quién está detrás de Boldo3108</p></div></div>
       <div class="about">
         <div class="profile glass">
-          <span class="avatar">P</span>
+          <img class="photo" src="foto.jpg" alt="Foto de Patricio" width="132" height="132">
           <h2>Patricio</h2>
           <span class="mono" style="color:var(--muted)">Boldo3108</span>
           <div class="actions"><a class="chip mono" href="https://github.com/boldo3108" target="_blank" rel="noopener">GitHub</a></div>
@@ -283,9 +282,10 @@ var APPS=[
   {id:"voxia",n:"Voxia",d:"App de voz para streams: lee tu chat en voz alta en español, inglés y portugués.",tint:"var(--t-violet)",ico:"mic",ver:"v1.3.0",size:"35 MB",url:"https://github.com/boldo3108/voxia/releases/download/v1.3.0/Voxia-1.3.0-portable.zip",tag:"Stream"},
   {id:"audio",n:"Convertidor de Audio Pro",d:"Convierte archivos de audio a MP3 y otros formatos en pocos clics.",tint:"var(--t-blue)",ico:"note",ver:"v1.0",size:"47 MB",url:"https://github.com/boldo3108/convertidor-audio-pro/releases/download/v1.0/Convertidor_MP3_Pro.exe",tag:"Audio"},
   {id:"img",n:"Convertidor de Imágenes",d:"Cambia el formato de tus imágenes: PNG, JPG, WebP y más.",tint:"var(--t-gold)",ico:"img",ver:"v1.0",size:"25 MB",url:"https://github.com/boldo3108/convertidor-imagenes/releases/download/v1.0/Convertidor_Imagenes.exe",tag:"Imagen"},
-  {id:"fotos",n:"Organizador de Fotos",d:"Revisa una carpeta, detecta las fotos duplicadas y las separa de las únicas.",tint:"var(--t-green)",ico:"copy",ver:null,tag:"Fotos"}
+  {id:"fotos",n:"Organizador de Fotos",d:"Revisa una carpeta, detecta las fotos duplicadas y las separa de las únicas.",tint:"var(--t-green)",ico:"copy",ver:"v1.0",size:"13 MB",url:"https://github.com/boldo3108/organizador-fotos/releases/download/v1.0/Organizador_de_Fotos.exe",tag:"Fotos"}
 ];
 var LOG=[
+  {d:"29 oct 2026",t:"Llegó el Organizador de Fotos",p:"Ya se puede descargar gratis: revisa una carpeta, detecta las fotos duplicadas y las separa de las únicas.",tag:"apps",ico:"dl"},
   {d:"28 oct 2026",t:"La página pasa a estilo vidrio",p:"Nuevo diseño tipo panel: secciones que cambian sin recargar y paneles de vidrio sobre un paisaje.",tag:"diseño",ico:"spark"},
   {d:"26 oct 2026",t:"Publiqué mis primeras apps",p:"Voxia, Convertidor de Audio Pro y Convertidor de Imágenes ya se pueden descargar gratis. El Organizador de Fotos llega pronto.",tag:"apps",ico:"dl"},
   {d:"26 oct 2026",t:"Rediseño de la página",p:"Probé un estilo con mucho color y lo descarté: para un portafolio, menos es más.",tag:"diseño",ico:"spark"},
