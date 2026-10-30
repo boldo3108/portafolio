@@ -55,7 +55,7 @@ header.top{grid-column:1/-1;display:flex;justify-content:space-between;align-ite
 .mark .dim{color:var(--faint);margin-right:.04em}
 .mark .o{color:var(--orange)}
 /* Cursor de terminal que parpadea */
-.mark .cur{display:inline-block;width:.5em;height:.82em;margin-left:.08em;background:var(--orange);align-self:center;transform:translateY(.04em);animation:blink 1.1s steps(1) infinite}
+.mark .cur{display:inline-block;width:.25em;height:.82em;margin-left:.08em;background:var(--orange);align-self:center;transform:translateY(.04em);animation:blink 1.1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 header .mark{font-size:20px;padding-left:4px;padding-right:4px}
 
@@ -158,7 +158,7 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
 .online{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:999px;background:rgba(60,203,127,.15);color:var(--green)}
 .profile .actions{display:flex;gap:8px;margin-top:8px}
 .about-text p.big{font-size:clamp(20px,2.2vw,26px);line-height:1.35;letter-spacing:-.01em}
-.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0}
 .facts div{padding:14px;border-radius:14px;background:var(--glass-2);border:1px solid var(--edge)}
 .facts dt{color:var(--faint);margin-bottom:4px}
 .facts dd{margin:0;font-weight:500}
@@ -254,7 +254,6 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
           <span class="avatar">P</span>
           <h2>Patricio</h2>
           <span class="mono" style="color:var(--muted)">Boldo3108</span>
-          <span class="online mono"><i class="dot" aria-hidden="true"></i>Aprendiendo</span>
           <div class="actions"><a class="chip mono" href="https://github.com/boldo3108" target="_blank" rel="noopener">GitHub</a></div>
         </div>
         <div class="panel glass about-text">
@@ -262,7 +261,6 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
           <dl class="facts">
             <div><dt class="mono">Ubicación</dt><dd>Chile</dd></div>
             <div><dt class="mono">Idioma</dt><dd>Español</dd></div>
-            <div><dt class="mono">Estado</dt><dd>Aprendiendo</dd></div>
           </dl>
         </div>
       </div>
