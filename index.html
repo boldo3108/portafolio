@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Portafolio Boldo3108</title>
 <meta name="description" content="Boldo3108: bitácora de Patricio, aprendiendo y creando con inteligencia artificial desde Chile.">
+<script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;800&family=Geist+Mono:wght@400;500&family=JetBrains+Mono:wght@800&display=swap">
@@ -157,6 +158,17 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
 .online{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:999px;background:rgba(60,203,127,.15);color:var(--green)}
 .profile .actions{display:flex;gap:8px;margin-top:8px}
 .about-text p.big{font-size:clamp(20px,2.2vw,26px);line-height:1.35;letter-spacing:-.01em}
+.about-col{display:grid;gap:14px;min-width:0}
+.live{display:inline-flex;align-items:center;gap:7px;color:var(--muted)}
+.v-total{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.v-total b{font-size:clamp(34px,4vw,46px);font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.v-total span{color:var(--muted)}
+.v-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.v-list li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center}
+.v-list .flag{font-size:20px;line-height:1}
+.v-list .bar{height:6px;border-radius:9px;background:var(--glass-3);overflow:hidden;margin-top:6px}
+.v-list .bar i{display:block;height:100%;border-radius:9px;background:var(--orange)}
+.v-list .num{font-variant-numeric:tabular-nums;color:var(--muted)}
 .facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0}
 .facts div{padding:14px;border-radius:14px;background:var(--glass-2);border:1px solid var(--edge)}
 .facts dt{color:var(--faint);margin-bottom:4px}
@@ -255,12 +267,19 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
           <span class="mono" style="color:var(--muted)">Boldo3108</span>
           <div class="actions"><a class="chip mono" href="https://github.com/boldo3108" target="_blank" rel="noopener">GitHub</a></div>
         </div>
+        <div class="about-col">
         <div class="panel glass about-text">
           <p class="big">Soy Patricio, creador autodidacta con IA.</p>
           <dl class="facts">
             <div><dt class="mono">Ubicación</dt><dd>Chile</dd></div>
             <div><dt class="mono">Idioma</dt><dd>Español</dd></div>
           </dl>
+        </div>
+        <div class="panel glass visits" id="visitas">
+          <div class="panel-head"><h2>Visitas a la página</h2><span class="mono live"><i class="dot" aria-hidden="true"></i>En vivo</span></div>
+          <div class="v-total"><b id="v-total">—</b><span id="v-sub">Contando visitas…</span></div>
+          <ul class="v-list" id="v-list"></ul>
+        </div>
         </div>
       </div>
     </section>
@@ -395,6 +414,24 @@ addEventListener("hashchange",function(){go(location.hash.slice(1),false);});
   function start(){if(on)return;on=true;draw();addEventListener("resize",function(){clearTimeout(to);to=setTimeout(draw,200);});}
   addEventListener("needscene",start);
   var ph=document.getElementById("photo"); if(ph.complete&&!ph.naturalWidth)start();
+})();
+/* ---------- Contador público de visitas (Sobre mí) ---------- */
+(function(){
+  var tot=document.getElementById("v-total"), sub=document.getElementById("v-sub"), list=document.getElementById("v-list");
+  var nombres; try{nombres=new Intl.DisplayNames(["es"],{type:"region"});}catch(e){}
+  function flag(c){return c.replace(/./g,function(ch){return String.fromCodePoint(127397+ch.charCodeAt(0));});}
+  function show(d){
+    tot.textContent=Number(d.total||0).toLocaleString("es-CL");
+    sub.textContent=d.total==1?"visita desde que nació la página":"visitas desde que nació la página";
+    var max=d.paises&&d.paises.length?d.paises[0].n:1;
+    list.innerHTML=(d.paises||[]).map(function(p){
+      var name=nombres?nombres.of(p.c):p.c;
+      return '<li><span class="flag" aria-hidden="true">'+flag(p.c)+'</span><div><div>'+name+'</div><div class="bar"><i style="width:'+Math.max(6,Math.round(p.n/max*100))+'%"></i></div></div><span class="num mono">'+p.n.toLocaleString("es-CL")+'</span></li>';
+    }).join("");
+  }
+  var nueva=true; try{nueva=!sessionStorage.getItem("b3108-visita");sessionStorage.setItem("b3108-visita","1");}catch(e){}
+  fetch("/api/visitas",{method:nueva?"POST":"GET"}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(show)
+    .catch(function(){sub.textContent="El contador aparece en boldo3108.cl";});
 })();
 </script>
 </body>
