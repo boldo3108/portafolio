@@ -137,7 +137,71 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
 .thumb{height:118px;border-radius:14px;position:relative;padding:14px;display:flex;justify-content:space-between;align-items:flex-start;
   background:linear-gradient(150deg,color-mix(in srgb,var(--tint) 92%,#fff 8%),color-mix(in srgb,var(--tint) 70%,#000 30%));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
-.thumb svg{width:22px;height:22px;color:rgba(255,255,255,.92)}
+.thumb>svg{width:22px;height:22px;color:rgba(255,255,255,.92)}
+/* ---- Mini escenas animadas de cada app ---- */
+.thumb{height:150px;overflow:hidden}
+.thumb .state{z-index:2}
+.scene{position:absolute;inset:0;--w:rgba(255,255,255,.92);--w2:rgba(255,255,255,.55);--w3:rgba(255,255,255,.22);font-family:var(--mono);color:var(--w)}
+.scene *{animation-play-state:paused}
+.card:hover .scene *,.card.inview .scene *{animation-play-state:running}
+.tg{position:absolute;padding:3px 8px;border-radius:7px;font-size:11px;font-weight:500;background:rgba(0,0,0,.28);border:1px solid var(--w3);letter-spacing:.04em}
+/* Voxia: burbuja de chat + ondas de voz */
+.s-voxia .bub{position:absolute;left:16px;top:20px;padding:8px 11px;border-radius:12px 12px 12px 4px;background:rgba(255,255,255,.16);border:1px solid var(--w3);font:500 12px/1.3 var(--sans);max-width:56%}
+.s-voxia .bub b{display:block;font:500 10px var(--mono);color:var(--w2);margin-bottom:2px}
+.s-voxia .wave{position:absolute;left:18px;bottom:20px;display:flex;align-items:center;gap:4px;height:34px}
+.s-voxia .wave i{width:5px;border-radius:3px;background:var(--w);height:30%;animation:eq 1s ease-in-out infinite}
+.s-voxia .wave i:nth-child(2){animation-delay:-.2s}.s-voxia .wave i:nth-child(3){animation-delay:-.45s}.s-voxia .wave i:nth-child(4){animation-delay:-.1s}.s-voxia .wave i:nth-child(5){animation-delay:-.6s}.s-voxia .wave i:nth-child(6){animation-delay:-.3s}.s-voxia .wave i:nth-child(7){animation-delay:-.75s}
+.s-voxia .spk{position:absolute;right:18px;top:22px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center}
+.s-voxia .spk svg{width:17px;height:17px}
+.s-voxia .spk::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid var(--w2);animation:ring 1.6s ease-out infinite}
+@keyframes eq{0%,100%{height:25%}50%{height:100%}}
+@keyframes ring{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.5);opacity:0}}
+/* Audio: WAV -> MP3 con onda */
+.s-audio .from{left:16px;top:22px}.s-audio .to{left:118px;top:22px;background:rgba(255,255,255,.9);color:#22324F;border-color:transparent}
+.s-audio .arrow{position:absolute;left:66px;top:31px;width:42px;height:2px;background:repeating-linear-gradient(90deg,var(--w) 0 6px,transparent 6px 10px);background-size:20px 2px;animation:dash .6s linear infinite}
+.s-audio .arrow::after{content:"";position:absolute;right:-2px;top:-4px;border:5px solid transparent;border-left:7px solid var(--w)}
+.s-audio .wave{position:absolute;left:16px;right:16px;bottom:18px;height:46px;display:flex;align-items:center;gap:3px}
+.s-audio .wave i{flex:1;border-radius:2px;background:var(--w2);height:var(--h);animation:eq2 1.4s ease-in-out infinite;animation-delay:var(--d)}
+@keyframes dash{to{background-position:20px 0}}
+@keyframes eq2{0%,100%{transform:scaleY(.55)}50%{transform:scaleY(1)}}
+/* Imágenes: foto + formato que cambia */
+.s-img .pic{position:absolute;left:18px;top:18px;width:96px;height:72px;border-radius:9px;background:linear-gradient(160deg,rgba(255,255,255,.35),rgba(255,255,255,.12));border:1px solid var(--w3);overflow:hidden}
+.s-img .pic::before{content:"";position:absolute;right:16px;top:12px;width:14px;height:14px;border-radius:50%;background:var(--w)}
+.s-img .pic::after{content:"";position:absolute;left:-10px;right:-10px;bottom:-22px;height:50px;background:var(--w2);clip-path:polygon(0 100%,30% 25%,50% 60%,72% 10%,100% 100%)}
+.s-img .fmt{position:absolute;left:126px;top:44px;width:62px;height:24px}
+.s-img .fmt span{position:absolute;inset:0;display:grid;place-items:center;border-radius:7px;font-size:11px;font-weight:500;letter-spacing:.04em;background:rgba(0,0,0,.28);border:1px solid var(--w3);opacity:0;animation:cyc 4.5s infinite}
+.s-img .fmt span:nth-child(1){animation-delay:0s}.s-img .fmt span:nth-child(2){animation-delay:1.5s}.s-img .fmt span:nth-child(3){animation-delay:3s}
+@keyframes cyc{0%{opacity:0;transform:translateY(6px)}6%,30%{opacity:1;transform:none}36%,100%{opacity:0;transform:translateY(-6px)}}
+/* Organizador: cuadrícula + duplicadas que se van a la carpeta */
+.s-fotos .grid{position:absolute;left:16px;top:18px;display:grid;grid-template-columns:repeat(3,30px);gap:6px}
+.s-fotos .grid i{height:24px;border-radius:5px;background:rgba(255,255,255,.3);border:1px solid var(--w3);position:relative}
+.s-fotos .grid i.d{border-color:#FFD27A;box-shadow:0 0 0 1px #FFD27A;animation:move 3s ease-in-out infinite}
+.s-fotos .grid i.d:nth-of-type(5){animation-delay:.2s}
+.s-fotos .folder{position:absolute;left:140px;top:30px;width:50px;height:38px;border-radius:4px 8px 8px 8px;background:rgba(255,255,255,.85)}
+.s-fotos .folder::before{content:"";position:absolute;left:0;top:-7px;width:22px;height:9px;border-radius:4px 4px 0 0;background:rgba(255,255,255,.85)}
+.s-fotos .folder b{position:absolute;inset:0;display:grid;place-items:center;font:600 10px var(--mono);color:#2F5A43}
+@keyframes move{0%,20%{transform:none;opacity:1}60%{transform:translate(var(--tx),var(--ty)) scale(.5);opacity:0}61%,100%{transform:none;opacity:1}}
+/* Stremia: pantalla de stream + alerta + chat */
+.s-stremia .scr{position:absolute;left:14px;top:14px;width:62%;bottom:16px;border-radius:9px;background:linear-gradient(160deg,rgba(0,0,0,.35),rgba(0,0,0,.15));border:1px solid var(--w3);overflow:hidden}
+.s-stremia .scr::before{content:"";position:absolute;left:0;right:0;bottom:0;height:40%;background:rgba(255,255,255,.12);clip-path:polygon(0 100%,0 60%,20% 30%,40% 55%,62% 15%,82% 45%,100% 25%,100% 100%)}
+.s-stremia .live{position:absolute;left:8px;top:8px;font:600 9px var(--mono);padding:2px 6px;border-radius:5px;background:#E5484D;color:#fff;letter-spacing:.06em}
+.s-stremia .alert{position:absolute;left:50%;top:38%;transform:translate(-50%,0);white-space:nowrap;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.92);color:#5A3418;font:600 11px var(--sans);animation:pop 3.2s ease-in-out infinite}
+.s-stremia .chat{position:absolute;right:14px;top:14px;bottom:16px;width:26%;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;overflow:hidden}
+.s-stremia .chat i{height:7px;border-radius:4px;background:var(--w2);animation:up 3.2s ease-in-out infinite}
+.s-stremia .chat i:nth-child(2n){width:70%}.s-stremia .chat i:nth-child(3n){width:85%;background:var(--w3)}
+@keyframes pop{0%,15%{opacity:0;transform:translate(-50%,10px) scale(.9)}25%,70%{opacity:1;transform:translate(-50%,0) scale(1)}80%,100%{opacity:0;transform:translate(-50%,-6px) scale(.96)}}
+@keyframes up{0%{transform:translateY(12px)}100%{transform:translateY(-12px)}}
+.card:not(:hover):not(.inview) .scene *{animation:none}
+.card:not(:hover):not(.inview) .s-stremia .alert{animation:none;opacity:1;transform:translate(-50%,0)}
+.card:not(:hover):not(.inview) .s-img .fmt span:nth-child(1){animation:none;opacity:1}
+/* Con escena, la etiqueta sobra (salvo "Próximamente") */
+.thumb:has(.scene) .state:not(.soon){display:none}
+/* Stremia destacada: ocupa dos columnas */
+#v-apps .apps{grid-template-columns:repeat(3,minmax(0,1fr))}
+#v-apps .card[data-id="stremia"]{grid-column:span 2}
+@media (max-width:980px){#v-apps .apps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){#v-apps .apps{grid-template-columns:1fr}#v-apps .card[data-id="stremia"]{grid-column:auto}}
+@media (prefers-reduced-motion:reduce){.scene *{animation:none!important}}
 .thumb .state{position:absolute;right:12px;bottom:12px;padding:2px 10px;border-radius:999px;background:rgba(0,0,0,.28);color:rgba(255,255,255,.9)}
 .card h3{font-size:16px;padding:0 6px}
 .card p{color:var(--muted);padding:0 6px}
@@ -313,12 +377,21 @@ var LOG=[
   {d:"26 oct 2026",t:"Rediseño de la página",p:"Probé un estilo con mucho color y lo descarté: para un portafolio, menos es más.",tag:"diseño",ico:"spark"},
   {d:"21 oct 2026",t:"Nace boldo3108.cl",p:"Registré mi dominio, subí la primera versión a GitHub y la publiqué en Vercel.",tag:"web",ico:"globe"}
 ];
+var SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>';
+function wave(n){var o="";for(var i=0;i<n;i++){o+='<i style="--h:'+(30+Math.round(70*Math.abs(Math.sin(i*1.7)*Math.cos(i*.6))))+'%;--d:-'+(i%7*.18).toFixed(2)+'s"></i>';}return o;}
+var SCENES={
+  voxia:'<div class="scene s-voxia"><div class="bub"><b>@chat</b>¡Hola stream! 👋</div><span class="spk">'+SPK+'</span><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>',
+  audio:'<div class="scene s-audio"><span class="tg from">WAV</span><span class="arrow"></span><span class="tg to">MP3</span><div class="wave">'+wave(28)+'</div></div>',
+  img:'<div class="scene s-img"><div class="pic"></div><div class="fmt"><span>PNG</span><span>JPG</span><span>WEBP</span></div></div>',
+  fotos:'<div class="scene s-fotos"><div class="grid"><i></i><i class="d" style="--tx:118px;--ty:14px"></i><i></i><i></i><i class="d" style="--tx:84px;--ty:-16px"></i><i></i></div><span class="folder"><b>DUP</b></span></div>',
+  stremia:'<div class="scene s-stremia"><div class="scr"><span class="live">EN VIVO</span><span class="alert">★ Nuevo seguidor</span></div><div class="chat"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>'
+};
 function appCard(a){
   var foot=a.ver
     ? '<span class="mono">'+a.ver+(a.size?' · '+a.size:'')+'</span><a class="dl" href="'+a.url+'">'+I.dl+'Descargar</a>'
     : '<span class="mono">Windows</span><span class="dl off" aria-disabled="true">'+I.dl+'Pronto</span>';
-  return '<article class="card glass" data-state="'+(a.ver?'disponible':'pronto')+'">'+
-    '<div class="thumb" style="--tint:'+a.tint+'">'+I[a.ico]+'<span class="state mono">'+(a.ver?a.tag:'Próximamente')+'</span></div>'+
+  return '<article class="card glass" data-id="'+a.id+'" data-state="'+(a.ver?'disponible':'pronto')+'">'+
+    '<div class="thumb" style="--tint:'+a.tint+'">'+(SCENES[a.id]||I[a.ico])+'<span class="state mono'+(a.ver?'':' soon')+'">'+(a.ver?a.tag:'Próximamente')+'</span></div>'+
     '<h3>'+a.n+'</h3><p>'+a.d+'</p><div class="card-foot">'+foot+'</div></article>';
 }
 function logItem(e){
@@ -330,6 +403,13 @@ document.querySelectorAll("[data-apps]").forEach(function(el){
 document.querySelectorAll("[data-log]").forEach(function(el){
   var k=el.dataset.log; el.innerHTML=(k==="all"?LOG:LOG.slice(0,+k)).map(logItem).join("");
 });
+
+/* ---------- En celular, las escenas se animan al estar a la vista ---------- */
+(function(){
+  if(!window.IntersectionObserver||!matchMedia("(hover: none)").matches)return;
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle("inview",e.isIntersecting);});},{threshold:.5});
+  document.querySelectorAll(".card").forEach(function(c){io.observe(c);});
+})();
 
 /* ---------- Filtros de apps ---------- */
 document.querySelectorAll(".filters button").forEach(function(b){
