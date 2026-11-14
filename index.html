@@ -4,6 +4,23 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Portafolio Boldo3108</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#080C14">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://boldo3108.cl/">
+<meta property="og:site_name" content="boldo3108.cl">
+<meta property="og:title" content="~/boldo3108 · Patricio">
+<meta property="og:description" content="Mi bitácora aprendiendo y creando con IA desde Chile. Apps gratis para descargar.">
+<meta property="og:image" content="https://boldo3108.cl/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_CL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="~/boldo3108 · Patricio">
+<meta name="twitter:description" content="Mi bitácora aprendiendo y creando con IA desde Chile. Apps gratis para descargar.">
+<meta name="twitter:image" content="https://boldo3108.cl/og.jpg">
 <meta name="description" content="Boldo3108: bitácora de Patricio, aprendiendo y creando con inteligencia artificial desde Chile.">
 <script defer src="/_vercel/insights/script.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +28,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;800&family=Geist+Mono:wght@400;500&family=JetBrains+Mono:wght@800&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
-/* Layout: panel tipo app. Foto (o paisaje pintado) de fondo fijo; barra superior con píldoras, dock lateral, y una vista activa a la vez que entra con desenfoque. Tema único oscuro y cálido: el color lo pone el fondo. */
+/* Layout: panel tipo app. Foto (o paisaje pintado) de fondo fijo; dock lateral (abajo en celular), y una vista activa a la vez que entra con desenfoque. Tema único oscuro y cálido: el color lo pone el fondo. */
 :root{
   --bg:#080C14; --ink:#F2F4FA; --muted:rgba(242,244,250,.66); --faint:rgba(242,244,250,.4);
   --glass:rgba(10,13,24,.46); --glass-2:rgba(255,255,255,.07); --glass-3:rgba(255,255,255,.13);
@@ -181,26 +198,16 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
 .s-fotos .folder::before{content:"";position:absolute;left:0;top:-7px;width:22px;height:9px;border-radius:4px 4px 0 0;background:rgba(255,255,255,.85)}
 .s-fotos .folder b{position:absolute;inset:0;display:grid;place-items:center;font:600 10px var(--mono);color:#2F5A43}
 @keyframes move{0%,20%{transform:none;opacity:1}60%{transform:translate(var(--tx),var(--ty)) scale(.5);opacity:0}61%,100%{transform:none;opacity:1}}
-/* Stremia: pantalla de stream + alerta + chat */
-.s-stremia .scr{position:absolute;left:14px;top:14px;width:62%;bottom:16px;border-radius:9px;background:linear-gradient(160deg,rgba(0,0,0,.35),rgba(0,0,0,.15));border:1px solid var(--w3);overflow:hidden}
-.s-stremia .scr::before{content:"";position:absolute;left:0;right:0;bottom:0;height:40%;background:rgba(255,255,255,.12);clip-path:polygon(0 100%,0 60%,20% 30%,40% 55%,62% 15%,82% 45%,100% 25%,100% 100%)}
-.s-stremia .live{position:absolute;left:8px;top:8px;font:600 9px var(--mono);padding:2px 6px;border-radius:5px;background:#E5484D;color:#fff;letter-spacing:.06em}
-.s-stremia .alert{position:absolute;left:50%;top:38%;transform:translate(-50%,0);white-space:nowrap;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.92);color:#5A3418;font:600 11px var(--sans);animation:pop 3.2s ease-in-out infinite}
-.s-stremia .chat{position:absolute;right:14px;top:14px;bottom:16px;width:26%;display:flex;flex-direction:column;justify-content:flex-end;gap:5px;overflow:hidden}
-.s-stremia .chat i{height:7px;border-radius:4px;background:var(--w2);animation:up 3.2s ease-in-out infinite}
-.s-stremia .chat i:nth-child(2n){width:70%}.s-stremia .chat i:nth-child(3n){width:85%;background:var(--w3)}
 @keyframes pop{0%,15%{opacity:0;transform:translate(-50%,10px) scale(.9)}25%,70%{opacity:1;transform:translate(-50%,0) scale(1)}80%,100%{opacity:0;transform:translate(-50%,-6px) scale(.96)}}
 @keyframes up{0%{transform:translateY(12px)}100%{transform:translateY(-12px)}}
 .card:not(:hover):not(.inview) .scene *{animation:none}
-.card:not(:hover):not(.inview) .s-stremia .alert{animation:none;opacity:1;transform:translate(-50%,0)}
 .card:not(:hover):not(.inview) .s-img .fmt span:nth-child(1){animation:none;opacity:1}
 /* Con escena, la etiqueta sobra (salvo "Próximamente") */
 .thumb:has(.scene) .state:not(.soon){display:none}
 /* Stremia destacada: ocupa dos columnas */
 #v-apps .apps{grid-template-columns:repeat(4,minmax(0,1fr))}
-#v-apps .card[data-id="stremia"]{grid-column:span 2}
 @media (max-width:980px){#v-apps .apps{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:620px){#v-apps .apps{grid-template-columns:1fr}#v-apps .card[data-id="stremia"]{grid-column:auto}}
+@media (max-width:620px){#v-apps .apps{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.scene *{animation:none!important}}
 .thumb .state{position:absolute;right:12px;bottom:12px;padding:2px 10px;border-radius:999px;background:rgba(0,0,0,.28);color:rgba(255,255,255,.9)}
 .card h3{font-size:16px;padding:0 6px}
@@ -253,7 +260,7 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
 <body>
 
 <canvas id="scene" aria-hidden="true"></canvas>
-<img id="photo" class="on" src="fondo.jpg" alt="" aria-hidden="true">
+<img id="photo" class="on" src="fondo.webp" alt="" aria-hidden="true">
 <div class="shade" aria-hidden="true"></div>
 
 <div class="app">
@@ -286,8 +293,8 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
       <div class="stats">
         <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b>4</b><span>Apps publicadas</span></div>
         <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span><b>Gratis</b><span>Todas las descargas</span></div>
-        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Nuevo</b><span>Organizador de Fotos</span></div>
-        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/></svg></span><b>29 oct</b><span>Última entrada</span></div>
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Nuevo</b><span id="st-nuevo">Voxia 2.0</span></div>
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/></svg></span><b id="st-ultima">12 nov</b><span>Última entrada</span></div>
       </div>
       <div class="row2">
         <div class="panel glass">
@@ -363,7 +370,7 @@ var I={
   globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>'
 };
 var APPS=[
-  {id:"voxia",n:"Voxia",d:"App de voz para streams: lee tu chat en voz alta en español, inglés y portugués.",tint:"var(--t-violet)",ico:"mic",ver:"v2.0.0",size:"31 MB",url:"https://github.com/boldo3108/voxia/releases/latest/download/Voxia.exe",tag:"Stream"},
+  {id:"voxia",n:"Voxia",d:"App de voz para streams: lee tu chat en voz alta en español, inglés y portugués. Un solo .exe que se actualiza solo.",tint:"var(--t-violet)",ico:"mic",ver:"v2.0.0",size:"31 MB",url:"https://github.com/boldo3108/voxia/releases/latest/download/Voxia.exe",tag:"Stream"},
   {id:"audio",n:"Convertidor de Audio Pro",d:"Convierte archivos de audio a MP3 y otros formatos en pocos clics.",tint:"var(--t-blue)",ico:"note",ver:"v1.0",size:"47 MB",url:"https://github.com/boldo3108/convertidor-audio-pro/releases/download/v1.0/Convertidor_MP3_Pro.exe",tag:"Audio"},
   {id:"img",n:"Convertidor de Imágenes",d:"Cambia el formato de tus imágenes: PNG, JPG, WebP y más.",tint:"var(--t-gold)",ico:"img",ver:"v1.0",size:"25 MB",url:"https://github.com/boldo3108/convertidor-imagenes/releases/download/v1.0/Convertidor_Imagenes.exe",tag:"Imagen"},
   {id:"fotos",n:"Organizador de Fotos",d:"Revisa una carpeta, detecta las fotos duplicadas y las separa de las únicas.",tint:"var(--t-green)",ico:"copy",ver:"v1.0",size:"13 MB",url:"https://github.com/boldo3108/organizador-fotos/releases/download/v1.0/Organizador_de_Fotos.exe",tag:"Fotos"}
@@ -383,7 +390,6 @@ var SCENES={
   audio:'<div class="scene s-audio"><span class="tg from">WAV</span><span class="arrow"></span><span class="tg to">MP3</span><div class="wave">'+wave(28)+'</div></div>',
   img:'<div class="scene s-img"><div class="pic"></div><div class="fmt"><span>PNG</span><span>JPG</span><span>WEBP</span></div></div>',
   fotos:'<div class="scene s-fotos"><div class="grid"><i></i><i class="d" style="--tx:118px;--ty:14px"></i><i></i><i></i><i class="d" style="--tx:84px;--ty:-16px"></i><i></i></div><span class="folder"><b>DUP</b></span></div>',
-  stremia:'<div class="scene s-stremia"><div class="scr"><span class="live">EN VIVO</span><span class="alert">★ Nuevo seguidor</span></div><div class="chat"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>'
 };
 function appCard(a){
   var foot=a.ver
@@ -402,6 +408,13 @@ document.querySelectorAll("[data-apps]").forEach(function(el){
 document.querySelectorAll("[data-log]").forEach(function(el){
   var k=el.dataset.log; el.innerHTML=(k==="all"?LOG:LOG.slice(0,+k)).map(logItem).join("");
 });
+/* Cuadros de Inicio: se llenan solos con la entrada más nueva de la bitácora */
+(function(){
+  var u=document.getElementById("st-ultima"), n=document.getElementById("st-nuevo");
+  if(u&&LOG[0]) u.textContent=LOG[0].d.replace(/\s+\d{4}$/,"");
+  var ap=LOG.filter(function(e){return e.tag==="apps";})[0];
+  if(n&&ap) n.textContent=(ap.nuevo||ap.t.split(":")[0].replace(/^(Llegó|Llega|Nuevo|Nueva)\s+(el|la)?\s*/i,""));
+})();
 
 /* ---------- En celular, las escenas se animan al estar a la vista ---------- */
 (function(){
