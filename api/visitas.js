@@ -9,8 +9,11 @@ module.exports = async (req, res) => {
   const raw = String(req.headers['x-vercel-ip-country'] || '').toUpperCase();
   const country = /^[A-Z]{2}$/.test(raw) ? raw : 'XX';
 
+  const ua = String(req.headers['user-agent'] || '');
+  const esBot = !ua || /bot|crawl|spider|slurp|headless|lighthouse|preview|facebookexternalhit|whatsapp|python|curl|wget|node-fetch|axios/i.test(ua);
+
   const cmds = [];
-  if (req.method === 'POST') cmds.push(['INCR', 'visitas:total'], ['HINCRBY', 'visitas:paises', country, 1]);
+  if (req.method === 'POST' && !esBot) cmds.push(['INCR', 'visitas:total'], ['HINCRBY', 'visitas:paises', country, 1]);
   cmds.push(['GET', 'visitas:total'], ['HGETALL', 'visitas:paises']);
 
   try {
