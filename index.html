@@ -214,6 +214,13 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
 .card p{color:var(--muted);padding:0 6px}
 .card-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 6px 6px;border-top:1px solid var(--edge);flex-wrap:wrap}
 .card-foot .mono{color:var(--faint)}
+.card-foot .ver{display:flex;flex-direction:column;gap:3px;line-height:1.2}
+.card-foot .dls{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.card-foot .dls svg{width:11px;height:11px}
+.facts .wide{grid-column:1/-1}
+.facts a.mail{display:inline-flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none;font-weight:500;word-break:break-all}
+.facts a.mail svg{width:16px;height:16px;flex:none;color:var(--orange)}
+.facts a.mail:hover{color:var(--orange)}
 .dl{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;background:var(--ink);color:#16120F;text-decoration:none;font-weight:500;transition:opacity .2s}
 .dl:hover{opacity:.88}
 .dl svg{width:15px;height:15px}
@@ -336,7 +343,7 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
           <img class="photo" src="foto.jpg" alt="Foto de Patricio" width="132" height="132">
           <h2>Patricio</h2>
           <span class="mono" style="color:var(--muted)">Boldo3108</span>
-          <div class="actions"><a class="chip mono" href="https://github.com/boldo3108" target="_blank" rel="noopener">GitHub</a></div>
+          <div class="actions"><a class="chip mono" href="mailto:pbustamante@outlook.es">Correo</a><a class="chip mono" href="https://github.com/boldo3108" target="_blank" rel="noopener">GitHub</a></div>
         </div>
         <div class="about-col">
         <div class="panel glass about-text">
@@ -344,6 +351,7 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
           <dl class="facts">
             <div><dt class="mono">Ubicación</dt><dd>Chile</dd></div>
             <div><dt class="mono">Idioma</dt><dd>Español</dd></div>
+            <div class="wide"><dt class="mono">Contacto</dt><dd><a class="mail" href="mailto:pbustamante@outlook.es"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>pbustamante@outlook.es</a></dd></div>
           </dl>
         </div>
         <div class="panel glass visits" id="visitas">
@@ -393,7 +401,7 @@ var SCENES={
 };
 function appCard(a){
   var foot=a.ver
-    ? '<span class="mono">'+a.ver+(a.size?' · '+a.size:'')+'</span><a class="dl" href="'+a.url+'">'+I.dl+'Descargar</a>'
+    ? '<span class="mono ver">'+a.ver+(a.size?' · '+a.size:'')+'<small class="dls" data-dls="'+a.id+'" hidden></small></span><a class="dl" href="'+a.url+'">'+I.dl+'Descargar</a>'
     : '<span class="mono">Windows</span><span class="dl off" aria-disabled="true">'+I.dl+'Pronto</span>';
   return '<article class="card glass" data-id="'+a.id+'" data-state="'+(a.ver?'disponible':'pronto')+'">'+
     '<div class="thumb" style="--tint:'+a.tint+'">'+(SCENES[a.id]||I[a.ico])+'<span class="state mono'+(a.ver?'':' soon')+'">'+(a.ver?a.tag:'Próximamente')+'</span></div>'+
@@ -414,6 +422,18 @@ document.querySelectorAll("[data-log]").forEach(function(el){
   if(u&&LOG[0]) u.textContent=LOG[0].d.replace(/\s+\d{4}$/,"");
   var ap=LOG.filter(function(e){return e.tag==="apps";})[0];
   if(n&&ap) n.textContent=(ap.nuevo||ap.t.split(":")[0].replace(/^(Llegó|Llega|Nuevo|Nueva)\s+(el|la)?\s*/i,""));
+})();
+
+/* Contador de descargas de cada app (datos de GitHub vía /api/descargas) */
+(function(){
+  if(location.protocol==="file:") return;
+  fetch("/api/descargas").then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d) return;
+    document.querySelectorAll("[data-dls]").forEach(function(el){
+      var n=d[el.dataset.dls]; if(!n) return;
+      el.innerHTML=I.dl+n.toLocaleString("es-CL")+(n===1?" descarga":" descargas"); el.hidden=false;
+    });
+  }).catch(function(){});
 })();
 
 /* ---------- En celular, las escenas se animan al estar a la vista ---------- */
