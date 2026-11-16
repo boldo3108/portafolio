@@ -89,12 +89,33 @@ nav.pills svg{width:15px;height:15px}
 .avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:600;background:linear-gradient(140deg,#FFA25E,#E8691A);color:#20140B;position:relative;flex:none}
 .avatar::after{content:"";position:absolute;right:-1px;bottom:-1px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid #141a2a}
 
-/* Dock */
-aside.dock{box-sizing:border-box;width:56px;padding:7px;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:999px;justify-self:center;align-self:start;position:sticky;top:calc(env(safe-area-inset-top,0px) + 92px);margin-top:76px}
-aside.dock button,aside.dock a{box-sizing:border-box;flex:none;padding:0;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:0;background:transparent;color:var(--muted);cursor:pointer;text-decoration:none;transition:background .25s,color .25s}
-aside.dock button:hover,aside.dock a:hover{background:var(--glass-2);color:var(--ink)}
+/* Dock (barra lateral de vidrio con resaltado que sigue al cursor) */
+aside.dock{box-sizing:border-box;width:56px;padding:7px;display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:28px;justify-self:center;align-self:start;position:sticky;top:calc(env(safe-area-inset-top,0px) + 92px);margin-top:76px}
+aside.dock button,aside.dock a{box-sizing:border-box;flex:none;padding:0;width:40px;height:40px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:8px;border:0;background:transparent;color:var(--muted);cursor:pointer;text-decoration:none;font:500 14px/1 var(--sans);transition:background .25s,color .25s;z-index:1}
+aside.dock button:hover,aside.dock a:hover{color:var(--ink)}
 aside.dock button[aria-current="page"]{background:var(--ink);color:#16120F}
-aside.dock svg{width:18px;height:18px;display:block}
+aside.dock svg{width:18px;height:18px;display:block;flex:none;transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+aside.dock button:active,aside.dock a:active{--m:-.2 !important}
+aside.dock .lbl{display:none;white-space:nowrap}
+/* Efecto lupa (como el dock del Mac): los íconos cerca del cursor crecen y la barra se estira */
+aside.dock button,aside.dock a{--m:0;height:calc(40px + var(--m) * 18px);transition:background .25s,color .25s,height .22s cubic-bezier(.2,.8,.3,1)}
+aside.dock svg{transform:scale(calc(1 + var(--m) * .55));transition:transform .22s cubic-bezier(.2,.8,.3,1)}
+aside.dock .d-me img{transform:scale(calc(1 + var(--m) * .35));transition:transform .22s cubic-bezier(.2,.8,.3,1)}
+aside.dock .d-logo .lg{transform:scale(calc(1 + var(--m) * .35))}
+aside.dock.mag button,aside.dock.mag a,aside.dock.mag svg,aside.dock.mag img,aside.dock.mag .lg{transition-duration:.12s}
+aside.dock button[aria-current="page"]{width:calc(40px + var(--m) * 6px)}
+/* Logo arriba */
+aside.dock .d-logo .lg{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:#080C14;border:1px solid var(--edge)}
+aside.dock .d-logo .lg svg{width:17px;height:17px}
+aside.dock .d-logo .lg{transition:transform .22s cubic-bezier(.2,.8,.3,1)}
+/* Puntito naranjo de novedad */
+aside.dock .pip{position:absolute;right:7px;top:7px;width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 2px rgba(10,13,24,.85)}
+/* Tu foto abajo con punto verde */
+aside.dock .d-me img{flex:none;width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;border:1.5px solid var(--edge);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+aside.dock .d-me .on{position:absolute;right:3px;bottom:3px;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 2px rgba(10,13,24,.9)}
+aside.dock .d-me[aria-current="page"]{background:var(--glass-2);color:var(--ink)}
+aside.dock .d-me[aria-current="page"] img{border-color:var(--ink)}
+aside.dock hr{align-self:center}
 /* Etiqueta al pasar el cursor por el dock */
 aside.dock{z-index:30}
 aside.dock button,aside.dock a{position:relative}
@@ -270,10 +291,20 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
   .app{grid-template-columns:1fr;gap:14px}
   .app{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   /* En el celular el dock pasa a ser una barra flotante abajo */
-  aside.dock{position:fixed;z-index:20;top:auto;bottom:max(14px,env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);margin:0;width:auto;flex-direction:row;align-self:auto}
-  aside.dock hr{width:1px;height:24px;margin:0 4px}
+  aside.dock{background:rgba(10,13,24,.74);position:fixed;z-index:20;top:auto;bottom:max(14px,env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);margin:0;width:auto;flex-direction:row;align-items:center;align-self:auto;border-radius:999px;padding:6px;gap:4px}
+  aside.dock hr{width:1px;height:24px;margin:0 3px}
+  aside.dock .d-logo,aside.dock hr.top{display:none}
+  aside.dock button,aside.dock a,aside.dock button[aria-current="page"]{height:40px;width:auto;min-width:40px;padding:0 11px;transition:background .25s,color .25s,padding .3s}
+  /* En el celular la sección activa se estira y muestra su nombre */
+  aside.dock button[aria-current="page"]{padding:0 14px 0 12px}
+  aside.dock button[aria-current="page"] .lbl{display:inline;animation:lblin .3s ease}
+  aside.dock .d-me{padding:0 4px}
+  aside.dock .d-me[aria-current="page"]{padding:0 12px 0 4px}
+  aside.dock .d-me .on{right:auto;left:30px}
+  aside.dock .pip{right:6px;top:6px}
   .facts{grid-template-columns:1fr 1fr}
 }
+@keyframes lblin{from{opacity:0;transform:translateX(-4px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -293,12 +324,14 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
   </header>
 
   <aside class="dock glass" aria-label="Accesos">
-    <button type="button" data-go="inicio" aria-label="Inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg></button>
-    <button type="button" data-go="bitacora" aria-label="Bitácora"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M8 9h6M8 13h6"/></svg></button>
-    <button type="button" data-go="apps" aria-label="Apps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></button>
-    <button type="button" data-go="sobre-mi" aria-label="Sobre mí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button>
+    <a class="d-logo" href="#inicio" data-go="inicio" aria-label="boldo3108"><span class="lg"><svg viewBox="0 0 64 64"><path d="M14 22l12 10-12 10" fill="none" stroke="#F2F4FA" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><rect x="32" y="38" width="18" height="6" rx="2" fill="#FF8A3D"/></svg></span></a>
+    <hr class="top">
+    <button type="button" data-go="inicio" aria-label="Inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Inicio</span></button>
+    <button type="button" data-go="bitacora" aria-label="Bitácora"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M8 9h6M8 13h6"/></svg><span class="lbl">Bitácora</span><i class="pip" data-pip="bitacora" hidden></i></button>
+    <button type="button" data-go="apps" aria-label="Apps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span class="lbl">Apps</span><i class="pip" data-pip="apps" hidden></i></button>
     <hr>
-    <a href="https://github.com/boldo3108" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4 1.5-4-2-6-2.5M15 22v-3.5a3 3 0 0 0-.9-2.4c3-.3 6-1.5 6-6.6a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.7 1.4a12.7 12.7 0 0 0-6.6 0C5.7 1.9 4.6 2.2 4.6 2.2a4.8 4.8 0 0 0-.1 3.6A5.2 5.2 0 0 0 3 9.4c0 5.1 3 6.3 6 6.6a3 3 0 0 0-.9 2.4V22"/></svg></a>
+    <a href="https://github.com/boldo3108" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4 1.5-4-2-6-2.5M15 22v-3.5a3 3 0 0 0-.9-2.4c3-.3 6-1.5 6-6.6a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6s-1.1-.3-3.7 1.4a12.7 12.7 0 0 0-6.6 0C5.7 1.9 4.6 2.2 4.6 2.2a4.8 4.8 0 0 0-.1 3.6A5.2 5.2 0 0 0 3 9.4c0 5.1 3 6.3 6 6.6a3 3 0 0 0-.9 2.4V22"/></svg><span class="lbl">GitHub</span></a>
+    <button class="d-me" type="button" data-go="sobre-mi" aria-label="Sobre mí"><img src="foto.jpg" alt="" width="32" height="32"><i class="on" aria-hidden="true"></i><span class="lbl">Sobre mí</span></button>
   </aside>
 
   <main>
@@ -310,7 +343,7 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
         <p>Esta página es mi bitácora: aquí comparto lo que aprendo y creo con inteligencia artificial. <em>Pásate seguido, siempre hay algo nuevo.</em></p>
       </div>
       <div class="stats">
-        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b>5</b><span>Apps publicadas</span></div>
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b id="st-apps">5</b><span>Apps publicadas</span></div>
         <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span><b>Gratis</b><span>Todas las descargas</span></div>
         <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Nuevo</b><span id="st-nuevo">Voxia 2.0</span></div>
         <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/></svg></span><b id="st-ultima">12 nov</b><span>Última entrada</span></div>
@@ -433,6 +466,7 @@ document.querySelectorAll("[data-log]").forEach(function(el){
 });
 /* Cuadros de Inicio: se llenan solos con la entrada más nueva de la bitácora */
 (function(){
+  var na=document.getElementById("st-apps"); if(na) na.textContent=APPS.filter(function(a){return a.ver;}).length;
   var u=document.getElementById("st-ultima"), n=document.getElementById("st-nuevo");
   if(u&&LOG[0]) u.textContent=LOG[0].d.replace(/\s+\d{4}$/,"");
   var ap=LOG.filter(function(e){return e.tag==="apps";})[0];
@@ -473,6 +507,39 @@ function fill(){ // la marca se llena según cuántas secciones has visitado
   var n=Object.keys(seen).length, total=VIEWS.length;
   letters.forEach(function(ls){var k=Math.round(n/total*ls.length);ls.forEach(function(l,i){l.classList.toggle("on",i<k);});});
 }
+/* Barra lateral: efecto lupa como el dock del Mac */
+var DOCK=document.querySelector("aside.dock");
+(function(){
+  if(!matchMedia("(hover:hover)").matches)return;
+  var items=[].slice.call(DOCK.querySelectorAll("button,a")), base=null, raf=0, my=0;
+  function centers(){ // posiciones con todos los íconos a tamaño normal
+    var top=DOCK.getBoundingClientRect().top, y=7, out=[];
+    [].slice.call(DOCK.children).forEach(function(el){
+      var h=el.tagName==="HR"?9:40; if(items.indexOf(el)>=0)out.push(y+h/2); y+=h+6;
+    }); return out.map(function(c){return c+top;});
+  }
+  function paint(){raf=0; if(!base)return;
+    items.forEach(function(el,i){var d=Math.abs(my-base[i]), m=Math.max(0,1-d/95); m=m*m*(3-2*m); el.style.setProperty("--m",m.toFixed(3));});
+  }
+  DOCK.addEventListener("mouseenter",function(e){ if(matchMedia("(max-width:760px)").matches)return; base=centers(); DOCK.classList.add("mag"); });
+  DOCK.addEventListener("mousemove",function(e){ if(!base)return; my=e.clientY; if(!raf)raf=requestAnimationFrame(paint); });
+  DOCK.addEventListener("mouseleave",function(){ base=null; DOCK.classList.remove("mag"); items.forEach(function(el){el.style.setProperty("--m",0);}); });
+})();
+var MES={ene:0,feb:1,mar:2,abr:3,may:4,jun:5,jul:6,ago:7,sep:8,oct:9,nov:10,dic:11};
+function fechaLog(d){var p=d.split(" ");return new Date(+p[2],MES[p[1]],+p[0]);}
+function novedad(){ /* entrada más nueva de cada sección, solo si tiene menos de 21 días */
+  var ap=LOG.filter(function(e){return e.tag==="apps";})[0];
+  function k(e){return e&&(Date.now()-fechaLog(e.d)<21*864e5)?e.d+"|"+e.t:"";}
+  return {bitacora:k(LOG[0]),apps:k(ap)};
+}
+function pips(vista){
+  var n=novedad();
+  DOCK.querySelectorAll("[data-pip]").forEach(function(p){
+    var id=p.dataset.pip, visto=""; try{visto=localStorage.getItem("b3108-visto-"+id)||"";}catch(e){}
+    if(id===vista&&n[id]){visto=n[id];try{localStorage.setItem("b3108-visto-"+id,visto);}catch(e){}}
+    p.hidden=!n[id]||visto===n[id];
+  });
+}
 function go(id,push){
   if(VIEWS.indexOf(id)<0)id="inicio";
   document.querySelectorAll("[data-view]").forEach(function(v){
@@ -480,7 +547,7 @@ function go(id,push){
     if(on){void v.offsetWidth; v.classList.add("enter");}
   });
   document.querySelectorAll("[data-go]").forEach(function(b){ if(b.tagName==="BUTTON"){ if(b.dataset.go===id)b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); }});
-  seen[id]=1; fill();
+  seen[id]=1; fill(); pips(id);
   if(push){try{history.replaceState(null,"","#"+id);}catch(e){}}
   window.scrollTo({top:0,behavior:"smooth"});
 }
