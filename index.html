@@ -189,6 +189,18 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
 .s-img .fmt span{position:absolute;inset:0;display:grid;place-items:center;border-radius:7px;font-size:11px;font-weight:500;letter-spacing:.04em;background:rgba(0,0,0,.28);border:1px solid var(--w3);opacity:0;animation:cyc 4.5s infinite}
 .s-img .fmt span:nth-child(1){animation-delay:0s}.s-img .fmt span:nth-child(2){animation-delay:1.5s}.s-img .fmt span:nth-child(3){animation-delay:3s}
 @keyframes cyc{0%{opacity:0;transform:translateY(6px)}6%,30%{opacity:1;transform:none}36%,100%{opacity:0;transform:translateY(-6px)}}
+/* Tempia: termómetro que sube + temperatura + ventilador girando */
+.s-tempia .th{position:absolute;left:24px;top:14px;width:14px;height:54px;border-radius:7px 7px 0 0;background:rgba(255,255,255,.18);border:1px solid var(--w3);border-bottom:0;overflow:hidden}
+.s-tempia .th i{position:absolute;left:0;right:0;bottom:0;height:35%;background:var(--w);animation:tfill 3s ease-in-out infinite alternate}
+.s-tempia .bulb{position:absolute;left:19px;top:62px;width:24px;height:24px;border-radius:50%;background:var(--w)}
+.s-tempia .num{position:absolute;left:58px;top:20px;width:70px;height:30px}
+.s-tempia .num span{position:absolute;inset:0;font:600 26px/1 var(--sans);opacity:0;animation:cyc 4.5s infinite}
+.s-tempia .num span:nth-child(1){animation-delay:0s}.s-tempia .num span:nth-child(2){animation-delay:1.5s}.s-tempia .num span:nth-child(3){animation-delay:3s}
+.s-tempia .lbl{position:absolute;left:60px;top:56px;font-size:10px;letter-spacing:.06em;color:var(--w2)}
+.s-tempia .fan{position:absolute;right:18px;top:20px;width:46px;height:46px;animation:tspin 1.1s linear infinite}
+@keyframes tfill{from{height:30%}to{height:88%}}
+@keyframes tspin{to{transform:rotate(360deg)}}
+.card:not(:hover):not(.inview) .s-tempia .num span:nth-child(1){animation:none;opacity:1}
 /* Organizador: cuadrícula + duplicadas que se van a la carpeta */
 .s-fotos .grid{position:absolute;left:16px;top:18px;display:grid;grid-template-columns:repeat(3,30px);gap:6px}
 .s-fotos .grid i{height:24px;border-radius:5px;background:rgba(255,255,255,.3);border:1px solid var(--w3);position:relative}
@@ -298,7 +310,7 @@ main{min-width:0;max-width:1180px;width:100%;justify-self:center}
         <p>Esta página es mi bitácora: aquí comparto lo que aprendo y creo con inteligencia artificial. <em>Pásate seguido, siempre hay algo nuevo.</em></p>
       </div>
       <div class="stats">
-        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b>4</b><span>Apps publicadas</span></div>
+        <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><b>5</b><span>Apps publicadas</span></div>
         <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span><b>Gratis</b><span>Todas las descargas</span></div>
         <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b>Nuevo</b><span id="st-nuevo">Voxia 2.0</span></div>
         <div class="stat glass"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/></svg></span><b id="st-ultima">12 nov</b><span>Última entrada</span></div>
@@ -379,11 +391,13 @@ var I={
 };
 var APPS=[
   {id:"voxia",n:"Voxia",d:"App de voz para streams: lee tu chat en voz alta en español, inglés y portugués. Un solo .exe que se actualiza solo.",tint:"var(--t-violet)",ico:"mic",ver:"v2.0.0",size:"31 MB",url:"https://github.com/boldo3108/voxia/releases/latest/download/Voxia.exe",tag:"Stream"},
+  {id:"tempia",n:"Tempia",d:"Monitor de temperaturas y uso de CPU, GPU, RAM y discos. Controla los ventiladores y tiene modo mini sobre tus juegos. Se actualiza sola.",tint:"var(--t-orange)",ico:"spark",ver:"v1.0.0",size:"17 MB",url:"https://github.com/boldo3108/tempia/releases/latest/download/Tempia.exe",tag:"Sistema"},
   {id:"audio",n:"Convertidor de Audio Pro",d:"Convierte archivos de audio a MP3 y otros formatos en pocos clics.",tint:"var(--t-blue)",ico:"note",ver:"v1.0",size:"47 MB",url:"https://github.com/boldo3108/convertidor-audio-pro/releases/download/v1.0/Convertidor_MP3_Pro.exe",tag:"Audio"},
   {id:"img",n:"Convertidor de Imágenes",d:"Cambia el formato de tus imágenes: PNG, JPG, WebP y más.",tint:"var(--t-gold)",ico:"img",ver:"v1.0",size:"25 MB",url:"https://github.com/boldo3108/convertidor-imagenes/releases/download/v1.0/Convertidor_Imagenes.exe",tag:"Imagen"},
   {id:"fotos",n:"Organizador de Fotos",d:"Revisa una carpeta, detecta las fotos duplicadas y las separa de las únicas.",tint:"var(--t-green)",ico:"copy",ver:"v1.0",size:"13 MB",url:"https://github.com/boldo3108/organizador-fotos/releases/download/v1.0/Organizador_de_Fotos.exe",tag:"Fotos"}
 ];
 var LOG=[
+  {d:"15 nov 2026",t:"Llegó Tempia",p:"Mi nueva app gratis: mira la temperatura y el uso de tu CPU, GPU, RAM y discos, controla los ventiladores y deja un modo mini encima de tus juegos.",tag:"apps",ico:"dl",nuevo:"Tempia 1.0"},
   {d:"12 nov 2026",t:"Voxia 2.0: ventana nueva",p:"Voxia estrena diseño, ahora es un solo .exe y se actualiza sola desde la app.",tag:"apps",ico:"dl"},
   {d:"29 oct 2026",t:"Llegó el Organizador de Fotos",p:"Ya se puede descargar gratis: revisa una carpeta, detecta las fotos duplicadas y las separa de las únicas.",tag:"apps",ico:"dl"},
   {d:"28 oct 2026",t:"La página pasa a estilo vidrio",p:"Nuevo diseño tipo panel: secciones que cambian sin recargar y paneles de vidrio sobre un paisaje.",tag:"diseño",ico:"spark"},
@@ -397,6 +411,7 @@ var SCENES={
   voxia:'<div class="scene s-voxia"><div class="bub"><b>@chat</b>¡Hola stream! 👋</div><span class="spk">'+SPK+'</span><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>',
   audio:'<div class="scene s-audio"><span class="tg from">WAV</span><span class="arrow"></span><span class="tg to">MP3</span><div class="wave">'+wave(28)+'</div></div>',
   img:'<div class="scene s-img"><div class="pic"></div><div class="fmt"><span>PNG</span><span>JPG</span><span>WEBP</span></div></div>',
+  tempia:'<div class="scene s-tempia"><div class="th"><i></i></div><span class="bulb"></span><div class="num"><span>54°</span><span>67°</span><span>72°</span></div><span class="lbl">CPU · GPU</span><svg class="fan" viewBox="0 0 48 48" fill="currentColor"><circle cx="24" cy="24" r="5"/><path d="M24 19c-2-7 1-14 8-14 4 0 5 5 1 8-3 2-6 3-9 6zM29 24c7-2 14 1 14 8 0 4-5 5-8 1-2-3-3-6-6-9zM24 29c2 7-1 14-8 14-4 0-5-5-1-8 3-2 6-3 9-6zM19 24c-7 2-14-1-14-8 0-4 5-5 8-1 2 3 3 6 6 9z" opacity=".9"/></svg></div>',
   fotos:'<div class="scene s-fotos"><div class="grid"><i></i><i class="d" style="--tx:118px;--ty:14px"></i><i></i><i></i><i class="d" style="--tx:84px;--ty:-16px"></i><i></i></div><span class="folder"><b>DUP</b></span></div>',
 };
 function appCard(a){

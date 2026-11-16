@@ -2,6 +2,7 @@
 // Vercel guarda la respuesta 15 min en su caché; si GitHub falla, se usa el último valor guardado en Redis.
 const REPOS = {
   voxia: 'voxia',
+  tempia: 'tempia',
   audio: 'convertidor-audio-pro',
   img: 'convertidor-imagenes',
   fotos: 'organizador-fotos'
